@@ -124,93 +124,159 @@ class OccupantDetails(models.Model):
 #hostelView inherits HostelViewAccess
 #hostelRORelation inherits HostelRoomOccupantRelation
 
-class siangRoom(HostelRoom):
-    pass
-class siangView(HostelViewAccess):
-    pass
-class siangRORelation(HostelRoomOccupantRelation):
-    pass
+class SiangRoom(HostelRoom):
+    class Meta:
+        verbose_name = "siangRoom"
+        verbose_name_plural = "siangRoom"
 
-class lohitRoom(HostelRoom):
-    pass
-class lohitView(HostelViewAccess):
-    pass
-class lohitRORelation(HostelRoomOccupantRelation):
-    pass
+class SiangView(HostelViewAccess):
+    class Meta:
+        verbose_name = "siangView"
+        verbose_name_plural = "siangView"
+class SiangRORelation(HostelRoomOccupantRelation):
+    class Meta:
+        verbose_name = "siangRORelation"
+        verbose_name_plural = "siangRORelation"
 
-class dihingRoom(HostelRoom):
-    pass
-class dihingView(HostelViewAccess):
-    pass
-class dihingRORelation(HostelRoomOccupantRelation):
-    pass
+class LohitRoom(HostelRoom):
+    class Meta:
+        verbose_name = "lohitRoom"
+        verbose_name_plural = "lohitRoom"
+class LohitView(HostelViewAccess):
+    class Meta:
+        verbose_name = "lohitView"
+        verbose_name_plural = "lohitView"
+class LohitRORelation(HostelRoomOccupantRelation):
+    class Meta:
+        verbose_name = "lohitRORelation"
+        verbose_name_plural = "lohitRORelation"
 
-class dibangRoom(HostelRoom):
-    pass
-class dibangView(HostelViewAccess):
-    pass
-class dibangRORelation(HostelRoomOccupantRelation):
-    pass
+class DihingRoom(HostelRoom):
+    class Meta:
+        verbose_name = "dihingRoom"
+        verbose_name_plural = "dihingRoom"
+class DihingView(HostelViewAccess):
+    class Meta:
+        verbose_name = "dihingView"
+        verbose_name_plural = "dihingView"
+class DihingRORelation(HostelRoomOccupantRelation):
+    class Meta:
+        verbose_name = "dihingRORelation"
+        verbose_name_plural = "dihingRORelation"
 
-class kapiliRoom(HostelRoom):
-    pass
-class kapiliView(HostelViewAccess):
-    pass
-class kapiliRORelation(HostelRoomOccupantRelation):
-    pass
+class DibangRoom(HostelRoom):
+    class Meta:
+        verbose_name = "dibangRoom"
+        verbose_name_plural = "dibangRoom"
+class DibangView(HostelViewAccess):
+    class Meta:
+        verbose_name = "dibangView"
+        verbose_name_plural = "dibangView"
+class DibangRORelation(HostelRoomOccupantRelation):
+    class Meta:
+        verbose_name = "dibangRORelation"
+        verbose_name_plural = "dibangRORelation"
 
-class manasRoom(HostelRoom):
-    pass
-class manasView(HostelViewAccess):
-    pass
-class manasRORelation(HostelRoomOccupantRelation):
-    pass
+class KapiliRoom(HostelRoom):
+    class Meta:
+        verbose_name = "kapiliRoom"
+        verbose_name_plural = "kapiliRoom"
+class KapiliView(HostelViewAccess):
+    class Meta:
+        verbose_name = "kapiliView"
+        verbose_name_plural = "kapiliView"
+class KapiliRORelation(HostelRoomOccupantRelation):
+    class Meta:
+        verbose_name = "kapiliRORelation"
+        verbose_name_plural = "kapiliRORelation"
 
-class barakRoom(HostelRoom):
-    pass
-class barakView(HostelViewAccess):
-    pass
-class barakRORelation(HostelRoomOccupantRelation):
-    pass
+class ManasRoom(HostelRoom):
+    class Meta:
+        verbose_name = "manasRoom"
+        verbose_name_plural = "manasRoom"
+class ManasView(HostelViewAccess):
+    class Meta:
+        verbose_name = "manasView"
+        verbose_name_plural = "manasView"
+class ManasRORelation(HostelRoomOccupantRelation):
+    class Meta:
+        verbose_name = "manasRORelation"
+        verbose_name_plural = "manasRORelation"
 
-class umiamRoom(HostelRoom):
-    pass
-class umiamView(HostelViewAccess):
-    pass
-class umiamRORelation(HostelRoomOccupantRelation):
-    pass
+class BarakRoom(HostelRoom):
+    class Meta:
+        verbose_name = "barakRoom"
+        verbose_name_plural = "barakRoom"
+class BarakView(HostelViewAccess):
+    class Meta:
+        verbose_name = "barakView"
+        verbose_name_plural = "barakView"
+class BarakRORelation(HostelRoomOccupantRelation):
+    class Meta:
+        verbose_name = "barakRORelation"
+        verbose_name_plural = "barakRORelation"
 
-class bramhaputraRoom(HostelRoom):
-    pass
-class bramhaputraView(HostelViewAccess):
-    pass
-class bramhaputraRORelation(HostelRoomOccupantRelation):
-    pass
+class UmiamRoom(HostelRoom):
+    class Meta:
+        verbose_name = "umiamRoom"
+        verbose_name_plural = "umiamRoom"
+class UmiamView(HostelViewAccess):
+    class Meta:
+        verbose_name = "umiamView"
+        verbose_name_plural = "umiamView"
+class UmiamRORelation(HostelRoomOccupantRelation):
+    class Meta:
+        verbose_name = "umiamRORelation"
+        verbose_name_plural = "umiamRORelation"
 
-class dhansiriRoom(HostelRoom):
-    pass
-class dhansiriView(HostelViewAccess):
-    pass
-class dhansiriRORelation(HostelRoomOccupantRelation):
-    pass
+class BramhaputraRoom(HostelRoom):
+    class Meta:
+        verbose_name = "bramhaputraRoom"
+        verbose_name_plural = "bramhaputraRoom"
+class BramhaputraView(HostelViewAccess):
+    class Meta:
+        verbose_name = "bramhaputraView"
+        verbose_name_plural = "bramhaputraView"
+class BramhaputraRORelation(HostelRoomOccupantRelation):
+    class Meta:
+        verbose_name = "bramhaputraRORelation"
+        verbose_name_plural = "bramhaputraRORelation"
 
-class subansiriRoom(HostelRoom):
-    pass
-class subansiriView(HostelViewAccess):
-    pass
-class subansiriRORelation(HostelRoomOccupantRelation):
-    pass
+class DhansiriRoom(HostelRoom):
+    class Meta:
+        verbose_name = "dhansiriRoom"
+        verbose_name_plural = "dhansiriRoom"
+class DhansiriView(HostelViewAccess):
+    class Meta:
+        verbose_name = "dhansiriView"
+        verbose_name_plural = "dhansiriView"
+class DhansiriRORelation(HostelRoomOccupantRelation):
+    class Meta:
+        verbose_name = "dhansiriRORelation"
+        verbose_name_plural = "dhansiriRORelation"
 
-class kamengRoom(HostelRoom):
-    pass
-class kamengView(HostelViewAccess):
-    pass
-class kamengRORelation(HostelRoomOccupantRelation):
-    pass
+class SubansiriRoom(HostelRoom):
+    class Meta:
+        verbose_name = "subansiriRoom"
+        verbose_name_plural = "subansiriRoom"
+class SubansiriView(HostelViewAccess):
+    class Meta:
+        verbose_name = "subansiriView"
+        verbose_name_plural = "subansiriView"
+class SubansiriRORelation(HostelRoomOccupantRelation):
+    class Meta:
+        verbose_name = "subansiriRORelation"
+        verbose_name_plural = "subansiriRORelation"
 
-class marriedScholarRoom(HostelRoom):
-    pass
-class marriedScholarView(HostelViewAccess):
-    pass
-class marriedScholarRORelation(HostelRoomOccupantRelation):
-    pass
+class KamengRoom(HostelRoom):
+    class Meta:
+        verbose_name = "kamengRoom"
+        verbose_name_plural = "kamengRoom"
+class KamengView(HostelViewAccess):
+    class Meta:
+        verbose_name = "kamengView"
+        verbose_name_plural = "kamengView"
+class KamengRORelation(HostelRoomOccupantRelation):
+    class Meta:
+        verbose_name = "kamengView"
+        verbose_name_plural = "kamengView"
