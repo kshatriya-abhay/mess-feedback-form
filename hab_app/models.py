@@ -101,6 +101,7 @@ class OccupantDetails(models.Model):
     class Meta:
         verbose_name = "OccupantDetails"
         verbose_name_plural = "OccupantDetails"
+    name = models.CharField(max_length=255);
     #id type - roll no/aadhar no/project id etc
     idType = models.CharField(max_length=255)
     #rollno/aadhar no etc
@@ -123,6 +124,21 @@ class OccupantDetails(models.Model):
 #hostelRoom inherits HostelRoom
 #hostelView inherits HostelViewAccess
 #hostelRORelation inherits HostelRoomOccupantRelation
+class UpcomingOccupant(models.Model):
+    class Meta:
+        verbose_name = "UpcomingOccupant"
+        verbose_name_plural = "UpcomingOccupant"
+    occupantName = models.CharField(max_length=255)
+    occupantIdCategory = models.CharField(max_length=255)
+    occupantId = models.CharField(max_length=255)
+    hostelName = models.CharField(max_length=255)
+    roomNo = models.CharField(max_length=255,blank=True,null=True)
+    fromStay = models.DateField()
+    toStay = models.DateField()
+class Log_Table(HostelRoomOccupantRelation):
+    class Meta:
+        verbose_name = "Log_Table"
+        verbose_name_plural = "Log_Table"
 
 class SiangRoom(HostelRoom):
     class Meta:

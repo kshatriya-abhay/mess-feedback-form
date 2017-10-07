@@ -1,0 +1,50 @@
+{% extends "hab_app/caretakerView.html" %}
+{% block body_block %}
+<div class="col-lg-9 col-md-9">
+  <table>
+    <tbody>
+      <tr>
+        <td>Name:</td><td>{{details.name}}</td>
+      </tr>
+      <tr>
+        <td>Id type:</td><td>{{details.idType}}</td>
+      </tr>
+      <tr>
+        <td>Id No:</td><td>{{details.idNo}}</td>
+      </tr>
+      <tr>
+        <td>Gender:</td><td>{{details.gender}}</td>
+      </tr>
+      <tr>
+        <td>SA/DA:</td><td>{{details.saORda}}</td>
+      </tr>
+      <tr>
+        <td>Webmail:</td><td>{{details.webmail}}</td>
+      </tr>
+      <tr>
+        <td>Alternate Email:</td><td>{{details.altEmail}}</td>
+      </tr>
+      <tr>
+        <td>Mobile No:</td><td>{{details.mobNo}}</td>
+      </tr>
+      <tr>
+        <td>Emergency No:</td><td>{{details.emgercencyNo}}</td>
+      </tr>
+      <tr>
+        <td>Bank Account No:</td><td>{{details.bankAccount}}</td>
+      </tr>
+      <tr>
+        <td>IFSC code:</td><td>{{details.IFSCCode}}</td>
+      </tr>
+      <tr>
+        <td>Account Holder Name:</td><td>{{details.accHolderName}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="col-lg-9 col-md-9">
+
+  <a class="btn btn-primary" href="{% url 'hab_app:vacate' %}" role="button">Back</a>
+</div>
+{% endblock %}

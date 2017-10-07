@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^vacate/$', views.vacate,name='vacate'),
     url(r'^allot/$', views.allot,name='allot'),
     url(r'^home/$', views.home,name='home'),
-    url(r'^details/$', views.details,name='details'),
+    url(r'^showDetails/$', views.showDetails,name='showDetails'),
+    url(r'^chrAllot/$', views.chrAllot,name='chrAllot'),
 ]

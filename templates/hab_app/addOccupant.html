@@ -1,0 +1,12 @@
+{% extends "hab_app/chrView.html" %}
+
+{% load staticfiles %}
+{% block body_block %}
+
+<form enctype="multipart/form-data" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" name="" value="Allot" class="btn btn-primary">
+</form>
+
+{% endblock %}
