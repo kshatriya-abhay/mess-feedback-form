@@ -24,7 +24,7 @@
           <td>{{i.contact}}</td>
           <td>{{ i.messStatus }}</td>
           <td><a href="{% url 'hab_app:showDetails' %}?param={{ i.occupantId }}" onclick="showDetail(this)" id = "{{ i.occupantId }}">Details</a></td>
-          <td><a href="{% url 'hab_app:delete' %}?param={{ i.occupantId }}" onclick="ConfirmDelete()" >
+          <td><a href="#" onclick="ConfirmDelete()" >
           <span class="glyphicon glyphicon-trash"></span>
         </a></td>
       </tr>

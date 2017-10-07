@@ -38,7 +38,7 @@ def user_login(request):
             ROtable = AllHostelMetaData.objects.get(hostelName__iexact = username)
             return render(request,'hab_app/caretakerView.html',{'ROtable':ROtable})
     else:
-        return render(request,'hab_app/login.html')
+        return render(request,'hab_app/index.html')
 
 
 def home(request):
@@ -62,7 +62,8 @@ def vacate(request):
 
 def allot(request):
     ROtable = AllHostelMetaData.objects.get(hostelName__iexact = hostel)
-    return render(request,'hab_app/allot.html',{'ROtable':ROtable})
+    tobeAlloted = UpcomingOccupant.objects.all()
+    return render(request,'hab_app/allot.html',{'ROtable':ROtable,'tobeAlloted':tobeAlloted})
 
 
 

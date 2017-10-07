@@ -15,17 +15,19 @@
   </thead>
 
   <tbody>
+    {% for i in tobeAlloted %}
     <tr>
-          <td>Tiger Nixon</td>
-          <td>System Architect</td>
-          <td>Edinburgh</td>
-          <td>61</td>
-          <td>2011/04/25</td>
-          <td>$320,800</td>
-          <td>$320,800</td>
-          <td>$320,800</td>
-      </tr>
+          <td>{{ i.toStay }}</td>
+          <td>{{ i.roomNo }}</td>
+          <td>{{i.occupantName}}</td>
+          <td>{{ i.occupantId }}</td>
+          <td>{{ i.occupantIdCategory }}</td>
+          <td></td>
+          <td>No</td>
+          <td><a class="btn btn-primary" href="#" role="button">Allot</a></td>
 
+      </tr>
+      {% endfor %}
   </tbody>
 
 {% endblock %}
