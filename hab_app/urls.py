@@ -10,5 +10,7 @@ urlpatterns = [
     url(r'^allot/$', views.allot,name='allot'),
     url(r'^home/$', views.home,name='home'),
     url(r'^showDetails/$', views.showDetails,name='showDetails'),
+    url(r'^addDetails/$', views.addDetails,name='addDetails'),
     url(r'^chrAllot/$', views.chrAllot,name='chrAllot'),
+    url(r'^deleteDetails/$', views.deleteDetails,name='deleteDetails'),
 ]

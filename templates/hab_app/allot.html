@@ -7,7 +7,7 @@
           <th>Room No.</th>
           <th>Occupant Name</th>
           <th>Occupant ID No</th>
-          <th>Category</th>
+          <th>Id Type</th>
           <th>Contact</th>
           <th>Preexist</th>
           <th>Alloted</th>
@@ -21,10 +21,10 @@
           <td>{{ i.roomNo }}</td>
           <td>{{i.occupantName}}</td>
           <td>{{ i.occupantId }}</td>
-          <td>{{ i.occupantIdCategory }}</td>
+          <td>{{ i.idType }}</td>
           <td></td>
           <td>No</td>
-          <td><a class="btn btn-primary" href="#" role="button">Allot</a></td>
+          <td><a class="btn btn-primary" href="{% url 'hab_app:addDetails' %}?param={{ i.occupantId }}" role="button">Allot</a></td>
 
       </tr>
       {% endfor %}

@@ -124,14 +124,35 @@ class OccupantDetails(models.Model):
 #hostelRoom inherits HostelRoom
 #hostelView inherits HostelViewAccess
 #hostelRORelation inherits HostelRoomOccupantRelation
+HOSTEL_CHOICES = (
+        ('Barak', 'Barak'),
+        ('Bramhaputra', 'Bramhaputra'),
+        ('Dhansiri', 'Dhansiri'),
+        ('Dibang', 'Dibang'),
+        ('Dihing', 'Dihing'),
+        ('Kameng', 'Kameng'),
+        ('Kapili', 'Kapili'),
+        ('Lohit', 'Lohit'),
+        ('Manas', 'Manas'),
+        ('Siang', 'Siang'),
+        ('Subansiri', 'Subansiri'),
+        ('Umiam', 'Umiam'),
+    )
+ID_CHOICES =(
+    ('Rollno','Rollno'),
+    ('Project Id','Project Id'),
+    ('GovtId_VoterCard','GovtId_VoterCard'),
+    ('GovtID_AadharCard','GovtID_AadharCard'),
+    ('GovtIDPassportNo','GovtIDPassportNo')
+)
 class UpcomingOccupant(models.Model):
     class Meta:
         verbose_name = "UpcomingOccupant"
         verbose_name_plural = "UpcomingOccupant"
     occupantName = models.CharField(max_length=255)
-    occupantIdCategory = models.CharField(max_length=255)
+    idType = models.CharField(max_length=255,choices = ID_CHOICES)
     occupantId = models.CharField(max_length=255)
-    hostelName = models.CharField(max_length=255)
+    hostelName = models.CharField(max_length=255,choices = HOSTEL_CHOICES)
     roomNo = models.CharField(max_length=255,blank=True,null=True)
     fromStay = models.DateField()
     toStay = models.DateField()
