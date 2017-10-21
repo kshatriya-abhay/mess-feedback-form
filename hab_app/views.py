@@ -69,7 +69,7 @@ def vacate(request):
 
 def allot(request):
     ROtable = AllHostelMetaData.objects.get(hostelName__iexact = hostel)
-    tobeAlloted = UpcomingOccupant.objects.all()
+    tobeAlloted = UpcomingOccupant.objects.filter(hostelName__iexact = hostel)
     return render(request,'hab_app/allot.html',{'ROtable':ROtable,'tobeAlloted':tobeAlloted})
 
 
@@ -147,8 +147,8 @@ def deleteDetails(request):
         p.save()
         occupant = mymodel.objects.get(occupantId=occupantId).delete()
         now = datetime.now()
-        start = now - timedelta(days=4)
-        end = now + timedelta(days=4)
+        start = now - timedelta(days=8)
+        end = now + timedelta(days=8)
         tobeVacated = mymodel.objects.filter(toRoomStay__range=(start.date(),end.date()))
         for i in tobeVacated:
             temp1 = OccupantDetails.objects.get(idNo__iexact = i.occupantId)

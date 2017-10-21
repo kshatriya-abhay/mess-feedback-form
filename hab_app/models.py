@@ -1,14 +1,57 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
+
+HOSTEL_CHOICES = (
+        ('Barak', 'Barak'),
+        ('Bramhaputra', 'Bramhaputra'),
+        ('Dhansiri', 'Dhansiri'),
+        ('Dibang', 'Dibang'),
+        ('Dihing', 'Dihing'),
+        ('Kameng', 'Kameng'),
+        ('Kapili', 'Kapili'),
+        ('Lohit', 'Lohit'),
+        ('Manas', 'Manas'),
+        ('Siang', 'Siang'),
+        ('Subansiri', 'Subansiri'),
+        ('Umiam', 'Umiam'),
+    )
+ID_CHOICES =(
+    ('Rollno','Rollno'),
+    ('Project Id','Project Id'),
+    ('GovtId_VoterCard','GovtId_VoterCard'),
+    ('GovtID_AadharCard','GovtID_AadharCard'),
+    ('GovtIDPassportNo','GovtIDPassportNo')
+)
+
+GENDER_CHOICES =(
+    ('Male','Male'),
+    ('Female','Female'),
+)
+APPROVEDBY_CHOICES =(
+    ('HOD_CSE','HOD_CSE'),
+    ('HOSAA','HOSAA'),
+    ('chr_hab','chr_hab'),
+)
+PURPOSE_CHOICES =(
+    ('Intern','Intern'),
+    ('Project','Project'),
+    ('Unofficial','Unofficial'),
+)
+ABILITY_CHOICES =(
+    ('Specially/Differently Abled','Specially/Differently Abled'),
+    ('No','No'),
+)
 
 #table with general information regarding all hostels
+
 class AllHostelMetaData(models.Model):
 
     class Meta:
         verbose_name = "AllHostelMetaData"
         verbose_name_plural = "AllHostelMetaData"
 
-    hostelName = models.CharField(max_length=255,primary_key=True)
+    hostelName = models.CharField(max_length=255,primary_key=True,choices = HOSTEL_CHOICES)
     hostelCode = models.CharField(max_length=255,unique=True)
     #gensec webmail id
     hostelGensec = models.CharField(max_length=255,null=False)
@@ -35,7 +78,8 @@ class RoomCategory(models.Model):
     abbrevation = models.CharField(max_length=255,primary_key=True)
     #description such as single occupancy/double occupancy/attached toilets etc
     description = models.CharField(max_length=255,null=False)
-
+    def __str__(self):
+        return self.description
 #table with different occupant categories and its abbrevations used
 
 class OccupantCategory(models.Model):
@@ -46,7 +90,8 @@ class OccupantCategory(models.Model):
     abbrevation = models.CharField(max_length=255,primary_key=True)
     #description - student/project staff etc
     description = models.CharField(max_length=255,null=False)
-
+    def __str__(self):
+        return self.description
 #table with details of rooms in hostels .one for each hostel
 
 class HostelRoom(models.Model):
@@ -55,7 +100,7 @@ class HostelRoom(models.Model):
         verbose_name_plural = "HostelRoom"
     roomNo = models.CharField(max_length=255,primary_key=True)
     #occupancy as singlee/double etc
-    roomOccupancyType = models.CharField(max_length=255,null=False)
+    roomOccupancyType = models.ForeignKey(RoomCategory)
     #floor as 1st/2nd etc
     floorInfo = models.CharField(max_length=255)
     #status as abandoned/partially damaged etc
@@ -101,14 +146,14 @@ class OccupantDetails(models.Model):
     class Meta:
         verbose_name = "OccupantDetails"
         verbose_name_plural = "OccupantDetails"
-    name = models.CharField(max_length=255);
+    name = models.CharField(max_length=255)
     #id type - roll no/aadhar no/project id etc
-    idType = models.CharField(max_length=255)
+    idType = models.CharField(max_length=255,choices = ID_CHOICES)
     #rollno/aadhar no etc
     idNo = models.CharField(max_length=255,primary_key=True)
-    gender = models.CharField(max_length=255)
+    gender = models.CharField(max_length=255,choices = GENDER_CHOICES)
     #specially abled/differently abled
-    saORda = models.CharField(max_length=255)
+    saORda = models.CharField(max_length=255,choices = ABILITY_CHOICES)
     webmail = models.CharField(max_length=255)
     altEmail = models.CharField(max_length=255,null=False)
     mobNo = models.CharField(max_length=255,null=False)
@@ -124,27 +169,42 @@ class OccupantDetails(models.Model):
 #hostelRoom inherits HostelRoom
 #hostelView inherits HostelViewAccess
 #hostelRORelation inherits HostelRoomOccupantRelation
-HOSTEL_CHOICES = (
-        ('Barak', 'Barak'),
-        ('Bramhaputra', 'Bramhaputra'),
-        ('Dhansiri', 'Dhansiri'),
-        ('Dibang', 'Dibang'),
-        ('Dihing', 'Dihing'),
-        ('Kameng', 'Kameng'),
-        ('Kapili', 'Kapili'),
-        ('Lohit', 'Lohit'),
-        ('Manas', 'Manas'),
-        ('Siang', 'Siang'),
-        ('Subansiri', 'Subansiri'),
-        ('Umiam', 'Umiam'),
-    )
-ID_CHOICES =(
-    ('Rollno','Rollno'),
-    ('Project Id','Project Id'),
-    ('GovtId_VoterCard','GovtId_VoterCard'),
-    ('GovtID_AadharCard','GovtID_AadharCard'),
-    ('GovtIDPassportNo','GovtIDPassportNo')
-)
+
+class UpcomingOccupantRequest(models.Model):
+
+    class Meta:
+        verbose_name = "allotment"
+        verbose_name_plural = "allotment"
+
+    guestname=models.CharField(max_length=255,null = False)
+    id_type=models.CharField(max_length=255,choices = ID_CHOICES)
+    id_no=models.CharField(max_length=20,null=False)
+    Gender=models.CharField(max_length=255,choices = GENDER_CHOICES)
+    Address=models.CharField(max_length=300,null=False)
+    Pincode=models.PositiveIntegerField(null=False, validators=[MaxValueValidator(999999)])
+    Mobile_No=models.PositiveIntegerField(null=False, validators=[MaxValueValidator(9999999999)])
+    Emergency_Mobile_No=models.PositiveIntegerField(null=False, validators=[MaxValueValidator(9999999999)])
+    Webmail_id=models.CharField(max_length=255)
+    Alternate_email_id=models.EmailField(null=False)
+    Bank_Name=models.CharField(max_length=255,null=False)
+    Account_Holder_Name =models.CharField(max_length=255,null=False)
+    Bank_Account_No=models.IntegerField(null=False)
+    IFSCCode = models.CharField(max_length=255,null=False)
+    From_Date=models.DateField()
+    To_Date=models.DateField()
+    Purpose_Of_Stay=models.CharField(max_length=255,choices = PURPOSE_CHOICES)
+    Preference_Room=models.ForeignKey(RoomCategory)
+    #
+    #prefernce??
+    Host_Name=models.CharField(max_length=255,null=False)
+    Host_Webmail_Id=models.CharField(max_length=255)
+    Host_Id=models.PositiveIntegerField(null=False)
+    To_be_approved_by=models.CharField(max_length=255,choices = APPROVEDBY_CHOICES)
+    #approved by hod,hosaa etc
+    isApprovedFirst = models.BooleanField(default = False)
+    #is aproved by chr_hab
+    isApprovedChr = models.BooleanField(default = False)
+
 class UpcomingOccupant(models.Model):
     class Meta:
         verbose_name = "UpcomingOccupant"
@@ -156,6 +216,13 @@ class UpcomingOccupant(models.Model):
     roomNo = models.CharField(max_length=255,blank=True,null=True)
     fromStay = models.DateField()
     toStay = models.DateField()
+
+
+class Login(models.Model):
+    name = models.CharField(max_length=255,null=False)
+    webmail = models.CharField(max_length=255,null=False)
+    password = models.CharField(max_length=255,null=False)
+
 class Log_Table(HostelRoomOccupantRelation):
     class Meta:
         verbose_name = "Log_Table"
@@ -300,6 +367,7 @@ class SubansiriView(HostelViewAccess):
     class Meta:
         verbose_name = "subansiriView"
         verbose_name_plural = "subansiriView"
+
 class SubansiriRORelation(HostelRoomOccupantRelation):
     class Meta:
         verbose_name = "subansiriRORelation"
