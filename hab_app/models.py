@@ -38,6 +38,11 @@ TOAPPROVEDBY_CHOICES =(
     ('HOSAA','HOSAA'),
     ('chr_hab','chr_hab'),
 )
+MESS_CHOICES =(
+    ('Subscribed','Subscribed'),
+    ('Unsubscribed','Unsubscribed'),
+    ('PayAndEat','PayAndEat'),
+)
 PURPOSE_CHOICES =(
     ('Intern','Intern'),
     ('Project','Project'),
@@ -119,19 +124,19 @@ class HostelRoomOccupantRelation(models.Model):
     class Meta:
         verbose_name = "HostelRoomOccupantRelation"
         verbose_name_plural = "HostelRoomOccupantRelation"
-    hostelName = models.CharField(max_length=255)
-    roomNo = models.CharField(max_length=255)
-    occupantId = models.CharField(max_length=255)
+    hostelName = models.CharField(max_length=255,null = False,blank= False)
+    roomNo = models.CharField(max_length=255,null = False,blank= False)
+    occupantId = models.CharField(max_length=255,null = False,blank= False)
     #mess subscription status
-    messStatus = models.CharField(max_length=255)
+    messStatus = models.CharField(max_length=255 ,choices = MESS_CHOICES)
     #toMess - end date of mess subscription
     toMess = models.DateField()
     #fromMess - start date of mess subscription
     fromMess = models.DateField()
     #toRoomStay - end date of room stay
-    toRoomStay = models.DateField()
+    toRoomStay = models.DateField(null = False,blank= False)
     #fromRoomStay - start date of room stay
-    fromRoomStay = models.DateField()
+    fromRoomStay = models.DateField(null = False,blank= False)
     comment = models.CharField(max_length=255)
 
 #table with name and webmail of the people with access permissions(view only).one for each hostel
@@ -151,20 +156,23 @@ class OccupantDetails(models.Model):
     class Meta:
         verbose_name = "OccupantDetails"
         verbose_name_plural = "OccupantDetails"
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255,null = False,blank= False)
     #id type - roll no/aadhar no/project id etc
-    idType = models.CharField(max_length=255,choices = ID_CHOICES)
+    idType = models.CharField(max_length=255,choices = ID_CHOICES,null = False,blank= False)
     #rollno/aadhar no etc
-    idNo = models.CharField(max_length=255,primary_key=True)
-    gender = models.CharField(max_length=255,choices = GENDER_CHOICES)
+    idNo = models.CharField(max_length=255,primary_key=True,null = False,blank= False)
+    gender = models.CharField(max_length=255,choices = GENDER_CHOICES,null = False,blank= False)
     #specially abled/differently abled
     saORda = models.CharField(max_length=255,choices = ABILITY_CHOICES)
     webmail = models.CharField(max_length=255)
-    altEmail = models.CharField(max_length=255,null=False)
-    mobNo = models.CharField(max_length=255,null=False)
-    emgercencyNo = models.CharField(max_length=255,null=False)
+    altEmail = models.CharField(max_length=255)
+    mobNo = models.CharField(max_length=255)
+    emgercencyNo = models.CharField(max_length=255)
     photo = models.ImageField(upload_to='profile_pics',blank=True)
-
+    idPhoto = models.ImageField(upload_to='id_pics',blank=True)
+    Address=models.CharField(max_length=300)
+    Pincode=models.PositiveIntegerField( validators=[MaxValueValidator(999999)])
+    bankName = models.CharField(max_length=255)
     bankAccount = models.CharField(max_length=255)
     IFSCCode = models.CharField(max_length=255)
     #account holder name
@@ -178,7 +186,7 @@ class OccupantDetails(models.Model):
 class UpcomingOccupantRequest(models.Model):
     # hostelName = models.CharField(max_length=255,choices = HOSTEL_CHOICES)
     guestname=models.CharField(max_length=255,null = False)
-    hostelName = models.CharField(max_length=255)
+    hostelName = models.CharField(max_length = 255)
     id_type=models.CharField(max_length=255,choices = ID_CHOICES)
     id_no=models.CharField(max_length=20,null=False)
     Gender=models.CharField(max_length=255,choices = GENDER_CHOICES)
@@ -200,7 +208,7 @@ class UpcomingOccupantRequest(models.Model):
     #prefernce??
     Host_Name=models.CharField(max_length=255,null=False)
     Host_Webmail_Id=models.CharField(max_length=255)
-    Host_Id=models.PositiveIntegerField(null=False)
+    Host_Id=models.CharField(max_length=255,null=False)
     To_be_approved_by=models.CharField(max_length=255,choices = TOAPPROVEDBY_CHOICES)
     #approved by hod,hosaa etc
     isApprovedFirst = models.CharField(max_length=255,choices = STATUS_CHOICES,default = "Pending")
@@ -210,6 +218,8 @@ class UpcomingOccupantRequest(models.Model):
         verbose_name = "allotment"
         verbose_name_plural = "allotment"
         unique_together = ('Mobile_No', 'Emergency_Mobile_No',)
+
+
 class UpcomingOccupant(models.Model):
     class Meta:
         verbose_name = "UpcomingOccupant"

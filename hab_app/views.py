@@ -111,8 +111,8 @@ def addDetails(request):
             p.hostelName = ROtable.hostelName
             p.roomNo = occupant.roomNo
             p.messStatus = occupant.messStatus
-            p.toMess = occupant.toMess
-            p.fromMess = occupant.fromMess
+            # p.toMess = occupant.toMess
+            # p.fromMess = occupant.fromMess
             p.toRoomStay = occupant.toRoomStay
             p.fromRoomStay = occupant.fromRoomStay
             p.comment = occupant.comment
@@ -146,16 +146,16 @@ def deleteDetails(request):
         p.hostelName = ROtable.hostelName
         p.roomNo = occupant.roomNo
         p.messStatus = occupant.messStatus
-        p.toMess = occupant.toMess
-        p.fromMess = occupant.fromMess
+        # p.toMess = occupant.toMess
+        # p.fromMess = occupant.fromMess
         p.toRoomStay = occupant.toRoomStay
         p.fromRoomStay = occupant.fromRoomStay
         p.comment = occupant.comment
         p.save()
         occupant = mymodel.objects.get(occupantId=occupantId).delete()
         now = datetime.now()
-        start = now - timedelta(days=8)
-        end = now + timedelta(days=8)
+        start = now - timedelta(days=365)
+        end = now + timedelta(days=5)
         tobeVacated = mymodel.objects.filter(toRoomStay__range=(start.date(),end.date()))
         for i in tobeVacated:
             temp1 = OccupantDetails.objects.get(idNo__iexact = i.occupantId)
