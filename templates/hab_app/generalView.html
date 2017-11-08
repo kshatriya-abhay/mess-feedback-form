@@ -7,12 +7,7 @@
   <title>HAB</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  {# datetime#}
-<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/redmond/jquery-ui.css" rel="Stylesheet" />
-<script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-
   <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}">
@@ -27,8 +22,11 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{% static 'dist/css/skins/_all-skins.min.css' %}">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-
+{# datetime#}
+  <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/redmond/jquery-ui.css" rel="Stylesheet" />
+  <script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
+{# datetime#}
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 
@@ -80,8 +78,8 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
-        <li ><a href="{% url 'hab_app:chrAllot' %}"> <span>Allot Room</span></a></li>
-        <li ><a href="{% url 'hab_app:chrApproveApplication' %}"> <span>Approve Applications</span></a></li>
+        <li><a href="{% url 'hab_app:generalAllot' %}"> <span>Allot Room To Guest</span></a></li>
+        <li><a href="{% url 'hab_app:trackApplication' %}"> <span>Track Applications</span></a></li>
 
       </ul>
       <!-- /.sidebar-menu -->
@@ -89,14 +87,12 @@
     <!-- /.sidebar -->
   </aside>
 
-
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <h1>welcome caretaker of {{ROtable.hostelName}}</h1>
 
 
+{% block content %}
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -124,6 +120,7 @@
       <!-- /.row -->
     </section>
     <!-- /.content -->
+    {% endblock %}
   </div>
   <!-- /.content-wrapper -->
 {# footer#}
@@ -157,8 +154,8 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 <script type="text/javascript">
   $(function(){
-    $("#id_toStay").datepicker({ dateFormat: 'yy-mm-dd' });
-    $("#id_fromStay").datepicker({ dateFormat: 'yy-mm-dd' });
+    $("#id_From_Date").datepicker({ dateFormat: 'yy-mm-dd' });
+    $("#id_To_Date").datepicker({ dateFormat: 'yy-mm-dd' });
   });
 </script>
 <script>

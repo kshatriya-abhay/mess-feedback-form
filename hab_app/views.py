@@ -13,7 +13,6 @@ def index(request):
     return render(request,'hab_app/login.html')
 
 
-
 def showDetails(request):
     ROtable = AllHostelMetaData.objects.get(hostelName__iexact = hostel)
     if request.method == 'GET':
@@ -31,19 +30,26 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        request.session['username'] = username
+        request.session['password'] = password
+        if Login.objects.filter(webmail=username).count() == 1:
 
+            if username == "chr_hab":
+                return render(request,'hab_app/chrView.html')
 
-        if username == "chr_hab":
-            return render(request,'hab_app/chrView.html')
+            elif username[-3:]== "off":
+                username = username[:-3]
+                global hostel
+                hostel = username
+                ROtable = AllHostelMetaData.objects.get(hostelName__iexact = username)
+                return render(request,'hab_app/caretakerView.html',{'ROtable':ROtable})
+            elif username[:3]== "hod":
+                return render(request,'hab_app/headView.html')
+            else:
+                return render(request,'hab_app/generalView.html')
 
         else:
-            username = username[:-3]
-            global hostel
-            hostel = username
-            ROtable = AllHostelMetaData.objects.get(hostelName__iexact = username)
-            return render(request,'hab_app/caretakerView.html',{'ROtable':ROtable})
-    else:
-        return render(request,'hab_app/login.html')
+            return render(request,'hab_app/login.html')
 
 
 def home(request):
@@ -70,6 +76,7 @@ def vacate(request):
 def allot(request):
     ROtable = AllHostelMetaData.objects.get(hostelName__iexact = hostel)
     tobeAlloted = UpcomingOccupant.objects.filter(hostelName__iexact = hostel)
+    # tobeAlloted2 = UpcomingOccupantRequest.objects.filter(hostelName__iexact = hostel)
     return render(request,'hab_app/allot.html',{'ROtable':ROtable,'tobeAlloted':tobeAlloted})
 
 
@@ -155,3 +162,69 @@ def deleteDetails(request):
             i.name = temp1.name
             i.contact = temp1.mobNo
         return render(request,'hab_app/vacate.html',{'ROtable':ROtable,'tobeVacated':tobeVacated})
+
+
+def generalAllot(request):
+    if request.method == 'POST':
+        form = UpcomingOccupantRequestForm(data=request.POST)
+        if form.is_valid():
+            occupant = form.save()
+            occupant.save()
+            obj = Login.objects.get(webmail = request.session['username'])
+            initialData = {'Host_Name':obj.name,'Host_Webmail_Id':obj.webmail}
+            form1 = UpcomingOccupantRequestForm(initial = initialData)
+            return render(request,'hab_app/generalAllot.html',{'form':form1})
+        else:
+            print(form.errors)
+    else:
+        obj = Login.objects.get(webmail = request.session['username'])
+        initialData = {'Host_Name':obj.name,'Host_Webmail_Id':obj.webmail}
+        form = UpcomingOccupantRequestForm(initial = initialData)
+        return render(request,"hab_app/generalAllot.html",{'form':form})
+
+
+def trackApplication(request):
+    applicants = UpcomingOccupantRequest.objects.filter(Host_Webmail_Id = request.session['username'])
+    return render(request,"hab_app/generalTrack.html",{'applicants':applicants})
+
+def approveApplication(request):
+    if request.method == 'GET':
+        if request.GET.get('param') :
+            idNo = request.GET.get('param')
+            guest = UpcomingOccupantRequest.objects.get(id_no = idNo)
+            guest.isApprovedFirst = "Approved"
+            guest.save()
+    applicants = UpcomingOccupantRequest.objects.filter(To_be_approved_by__iexact = request.session['username'] , isApprovedFirst = "Pending" )
+    return render(request,"hab_app/approveApplication.html",{'applicants':applicants})
+
+
+def disapproveApplication(request):
+    if request.method == 'GET':
+        if request.GET.get('param') :
+            idNo = request.GET.get('param')
+            guest = UpcomingOccupantRequest.objects.get(id_no = idNo)
+            guest.isApprovedFirst = "Disapproved"
+            guest.save()
+    applicants = UpcomingOccupantRequest.objects.filter(To_be_approved_by__iexact = request.session['username'] , isApprovedFirst = "Pending" )
+    return render(request,"hab_app/approveApplication.html",{'applicants':applicants})
+
+def chrApproveApplication(request):
+    if request.method == 'GET':
+        if request.GET.get('param') :
+            idNo = request.GET.get('param')
+            guest = UpcomingOccupantRequest.objects.get(id_no = idNo)
+            guest.isApprovedChr = "Approved"
+            guest.save()
+    applicants = UpcomingOccupantRequest.objects.filter( isApprovedFirst = "Approved",isApprovedChr = "Pending" )
+    return render(request,"hab_app/chrApproveApplication.html",{'applicants':applicants})
+
+
+def chrDisapproveApplication(request):
+    if request.method == 'GET':
+        if request.GET.get('param') :
+            idNo = request.GET.get('param')
+            guest = UpcomingOccupantRequest.objects.get(id_no = idNo)
+            guest.isApprovedChr = "Disapproved"
+            guest.save()
+    applicants = UpcomingOccupantRequest.objects.filter( isApprovedFirst = "Approved",isApprovedChr = "Pending" )
+    return render(request,"hab_app/chrApproveApplication.html",{'applicants':applicants})

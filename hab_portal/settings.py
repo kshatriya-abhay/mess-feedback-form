@@ -26,10 +26,20 @@ SECRET_KEY = 'prfoa^@yv_me)7@^@-gi&ovrt+x#0#o$q1t=va_y9zizuaedoc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 
 
 # Application definition
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cacheTable',
+    }
+}
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -64,6 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },

@@ -28,8 +28,13 @@ GENDER_CHOICES =(
     ('Male','Male'),
     ('Female','Female'),
 )
-APPROVEDBY_CHOICES =(
-    ('HOD_CSE','HOD_CSE'),
+STATUS_CHOICES =(
+    ('Pending','Pending'),
+    ('Approved','Approved'),
+    ('Disapproved','Disapproved'),
+)
+TOAPPROVEDBY_CHOICES =(
+    ('hodcse','hodcse'),
     ('HOSAA','HOSAA'),
     ('chr_hab','chr_hab'),
 )
@@ -171,12 +176,9 @@ class OccupantDetails(models.Model):
 #hostelRORelation inherits HostelRoomOccupantRelation
 
 class UpcomingOccupantRequest(models.Model):
-
-    class Meta:
-        verbose_name = "allotment"
-        verbose_name_plural = "allotment"
-
+    # hostelName = models.CharField(max_length=255,choices = HOSTEL_CHOICES)
     guestname=models.CharField(max_length=255,null = False)
+    hostelName = models.CharField(max_length=255)
     id_type=models.CharField(max_length=255,choices = ID_CHOICES)
     id_no=models.CharField(max_length=20,null=False)
     Gender=models.CharField(max_length=255,choices = GENDER_CHOICES)
@@ -199,12 +201,15 @@ class UpcomingOccupantRequest(models.Model):
     Host_Name=models.CharField(max_length=255,null=False)
     Host_Webmail_Id=models.CharField(max_length=255)
     Host_Id=models.PositiveIntegerField(null=False)
-    To_be_approved_by=models.CharField(max_length=255,choices = APPROVEDBY_CHOICES)
+    To_be_approved_by=models.CharField(max_length=255,choices = TOAPPROVEDBY_CHOICES)
     #approved by hod,hosaa etc
-    isApprovedFirst = models.BooleanField(default = False)
+    isApprovedFirst = models.CharField(max_length=255,choices = STATUS_CHOICES,default = "Pending")
     #is aproved by chr_hab
-    isApprovedChr = models.BooleanField(default = False)
-
+    isApprovedChr = models.CharField(max_length=255,choices = STATUS_CHOICES,default = "Pending")
+    class Meta:
+        verbose_name = "allotment"
+        verbose_name_plural = "allotment"
+        unique_together = ('Mobile_No', 'Emergency_Mobile_No',)
 class UpcomingOccupant(models.Model):
     class Meta:
         verbose_name = "UpcomingOccupant"
