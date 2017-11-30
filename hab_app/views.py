@@ -101,6 +101,7 @@ def addDetails(request):
     temp = ROtable.hostelRoomOccupant
     mymodel = apps.get_model(app_label='hab_app', model_name=temp)
     if request.method == 'POST':
+
         form1 = HostelRoomOccupantRelationForm(data=request.POST)
         form2 = OccupantDetailsForm(data=request.POST)
 
@@ -124,10 +125,11 @@ def addDetails(request):
                 instance.idNo = occupantId
                 instance.save()
         log = UpcomingOccupant.objects.get(occupantId = occupantId).delete()
-        tobeAlloted = UpcomingOccupant.objects.all()
+        tobeAlloted = UpcomingOccupant.objects.filter(hostelName__iexact = hostel)
         return render(request,'hab_app/allot.html',{'ROtable':ROtable,'tobeAlloted':tobeAlloted})
 
     if request.method == 'GET':
+
         occupantId = request.GET.get('param')
         tobeAlloted = UpcomingOccupant.objects.get(occupantId = occupantId)
         initialData1 = {'occupantId': tobeAlloted.occupantId,'hostelName': tobeAlloted.hostelName,'roomNo': tobeAlloted.roomNo,'fromRoomStay': tobeAlloted.fromStay,'toRoomStay': tobeAlloted.toStay}
@@ -135,12 +137,13 @@ def addDetails(request):
         form1 = HostelRoomOccupantRelationForm(initial = initialData1)
         form2 = OccupantDetailsForm(initial = initialData2)
         return render(request,'hab_app/temp.html',{'form1':form1,'form2':form2})
+
 def deleteDetails(request):
     if request.method == 'GET':
         ROtable = AllHostelMetaData.objects.get(hostelName__iexact = hostel)
         temp = ROtable.hostelRoomOccupant
         mymodel = apps.get_model(app_label='hab_app', model_name=temp)
-        occupantId = request.GET.get('param')
+        occupantId = request.GET.get('pm')
         occupant = mymodel.objects.get(occupantId__iexact=occupantId)
         p = Log_Table(occupantId = occupantId)
         p.hostelName = ROtable.hostelName
@@ -162,6 +165,61 @@ def deleteDetails(request):
             i.name = temp1.name
             i.contact = temp1.mobNo
         return render(request,'hab_app/vacate.html',{'ROtable':ROtable,'tobeVacated':tobeVacated})
+
+def existingOccupants(request):
+    ROtable = AllHostelMetaData.objects.get(hostelName__iexact = hostel)
+    temp = ROtable.hostelRoomOccupant
+    mymodel = apps.get_model(app_label='hab_app', model_name=temp)
+    relation = mymodel.objects.all()
+    occupants = list()
+    for i in relation:
+        if OccupantDetails.objects.filter(idNo__iexact=i.occupantId).count() == 1:
+            occupants.append(OccupantDetails.objects.get(idNo__iexact=i.occupantId))
+    zipped = zip(relation,occupants)
+    return render(request,'hab_app/existingOccupants.html',{'ROtable':ROtable,'zipped':zipped})
+
+def roomDetails(request):
+    if request.method == 'GET':
+        index = request.GET.get('param')
+        #occupied rooms
+        #get the relation table name and room table name
+        ROtable = AllHostelMetaData.objects.get(hostelName__iexact = hostel)
+        relation_table = ROtable.hostelRoomOccupant
+        room_table = ROtable.hostelRoom
+        # get the model names for query
+        relation_model = apps.get_model(app_label='hab_app', model_name=relation_table)
+        room_model = apps.get_model(app_label='hab_app', model_name=room_table)
+        relation = relation_model.objects.all()
+        occupants = list()
+        room_list = list()
+        for i in relation:
+            if OccupantDetails.objects.filter(idNo__iexact=i.occupantId).count() == 1:
+                occupants.append(OccupantDetails.objects.get(idNo__iexact=i.occupantId))
+        for i in relation:
+            if room_model.objects.filter(roomNo = i.roomNo).count() == 1:
+                room_list.append(room_model.objects.get(roomNo = i.roomNo))
+        zipped = zip(room_list,occupants)
+        #for empty rooms
+        empty_rooms = list()
+        all_rooms = room_model.objects.all()
+        for i in all_rooms:
+            flag = 0
+            for j in room_list:
+                if i.roomNo == j.roomNo:
+                    flag = 1
+                    break
+            if flag == 0:
+                empty_rooms.append(i)
+        if index == "1":
+            return render(request,'hab_app/occupiedRooms.html',{'ROtable':ROtable,'zipped':zipped})
+
+        elif index == "2":
+            #empty rooms
+            return render(request,'hab_app/emptyRooms.html',{'ROtable':ROtable,'empty_rooms':empty_rooms})
+
+        else:
+            return render(request,'hab_app/totalRooms.html',{'ROtable':ROtable,'zipped':zipped ,'empty_rooms':empty_rooms})
+
 
 
 def generalAllot(request):

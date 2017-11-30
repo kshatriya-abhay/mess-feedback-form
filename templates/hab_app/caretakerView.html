@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 {# datetime#}
   <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/redmond/jquery-ui.css" rel="Stylesheet" />
-  <script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
 {# datetime#}
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -39,20 +39,30 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition  skin-blue sidebar-mini">
   {# <div id="main_header"><img class="margin" src='images/mainLogo.png'><h1>Indian Institute of Technology Guwahati</h1></div>#}
 <div class="wrapper">
 
   <header class="main-header">
     <!-- Logo -->
 
+    <a href="{% url 'hab_app:index' %}" class="logo">
+     <!-- mini logo for sidebar mini 50x50 pixels -->
+     <span class="logo-mini"><b>A</b>LT</span>
+     <!-- logo for regular state and mobile devices -->
+     <span class="logo-lg"><b>HAB</b></span>
+   </a>
       <!-- mini logo for sidebar mini 50x50 pixels -->
 
       <!-- logo for regular state and mobile devices -->
 
     <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <h2 style=" text-align : center;color:white;">Welcome to  Caretaker of {{ ROtable.hostelName}} </h2>
 
+    </nav>
   </header>
+
   <!-- Left side column. contains the logo and sidebar -->
 
 
@@ -72,23 +82,36 @@
       <!-- Sidebar Menu -->
       <li class="sidebar-search">
         <div class="input-group custom-search-form" style="text-align:center;">
-          <a href="{% url 'hab_app:index' %}"><img width="45%" src="{% static 'images/iitg.png' %}"></a>
+          <a href="http://www.iitg.ac.in"><img width="45%" src="{% static 'images/iitg.png' %}"></a>
         </div>
                                 <!-- /input-group -->
       </li>
-      <ul class="sidebar-menu" data-widget="tree">
+      <ul class="sidebar-menu" data-widget="tree" id="xyz">
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="{% url 'hab_app:vacate' %}"> <span>Rooms to be vacated</span></a></li>
+        <li ><a  href="{% url 'hab_app:vacate' %}"> <span>Rooms to be vacated</span></a></li>
         <li><a href="{% url 'hab_app:allot' %}"> <span>Rooms to be alloted</span></a></li>
-
+        <li><a href="{% url 'hab_app:existingOccupants' %}"> <span>Existing Occupants</span></a></li>
+        <li class=" treeview">
+          <a href="#">
+            <span>Room Details</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{% url 'hab_app:roomDetails' %}?param=1">Occupied Rooms</a></li>
+            <li><a href="{% url 'hab_app:roomDetails' %}?param=2">Empty Rooms</a></li>
+            <li><a href="{% url 'hab_app:roomDetails' %}?param=3">Total Rooms</a></li>
+          </ul>
+        </li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
   </aside>
 
-<h1>welcome caretaker of {{ROtable.hostelName}}</h1>
+
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -103,19 +126,23 @@
 
           <!-- /.box -->
 
-          <div class="box">
-            <div class="box-header">
 
-            </div>
+
             <!-- /.box-header -->
-            <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
+            <div class="box">
+
+
+            <div  class="box-body table-responsive padding">
+
+
+              <table id="example1" style="table-border : 10px" class="table table-hover">
                 {% block body_block %}
                 {% endblock %}
               </table>
-            </div>
+</div>
+</div>
             <!-- /.box-body -->
-          </div>
+
           <!-- /.box -->
         </div>
         <!-- /.col -->
@@ -136,11 +163,12 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->
+<script src="https://rawgit.com/makeusabrew/bootbox/f3a04a57877cab071738de558581fbc91812dce9/bootbox.js"></script>
 <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 <!-- DataTables -->
-<script src="{% static 'bower_components/datatables.net/js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
 <!-- SlimScroll -->
 <script src="{% static 'bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
@@ -152,14 +180,9 @@
 <script src="{% static 'dist/js/demo.js' %}"></script>
 <!-- page script -->
 <link rel="stylesheet" type="text/css" href="http://jquery-ui.googlecode.com/svn/tags/latest/themes/base/jquery-ui.css" media="all" />
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-<script type="text/javascript">
-  $(function(){
-    $("#id_toRoomStay").datepicker({ dateFormat: 'yy-mm-dd' });
-    $("#id_fromRoomStay").datepicker({ dateFormat: 'yy-mm-dd' });
-  });
-</script>
+
+
+
 <script>
   $(function () {
     $('#example1').DataTable()
@@ -169,9 +192,13 @@
       'searching'   : true,
       'ordering'    : true,
       'info'        : true,
-      'autoWidth'   : false
+      'autoWidth'   : false,
     })
   })
 </script>
+
+
+
+
 </body>
 </html>

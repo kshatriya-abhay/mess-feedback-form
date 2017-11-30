@@ -16,15 +16,15 @@
 
   <tbody>
     {% for i in tobeVacated %}
-    <tr>
+    <tr id ="{{ i.occupantId }}">
           <td>{{ i.toRoomStay }}</td>
           <td>{{ i.roomNo }}</td>
           <td>{{i.name}}</td>
           <td>{{ i.occupantId }}</td>
           <td>{{i.contact}}</td>
           <td>{{ i.messStatus }}</td>
-          <td><a href="{% url 'hab_app:showDetails' %}?param={{ i.occupantId }}" onclick="showDetail(this)" id = "{{ i.occupantId }}">Details</a></td>
-          <td><a href="{% url 'hab_app:deleteDetails' %}?param={{ i.occupantId }}" onclick="return confirm('Are you sure you want to delete this item?');" >
+          <td><a href="{% url 'hab_app:showDetails' %}?param={{ i.occupantId }}" >Details</a></td>
+          <td><a href="#" onclick="deleteDetails(this)" id = "{{ i.occupantId }}" >
           <span class="glyphicon glyphicon-trash"></span>
         </a></td>
       </tr>
@@ -32,12 +32,26 @@
   </tbody>
   <script>
 
-      function showDetail($this){
-        var det = $this.id;
-        $.ajax({
+      function deleteDetails($this){
+
+        var result = confirm("Are you sure you want to delete?");
+        if(result){
+          var det = $this.id;
+          $($this).closest('tr').remove().draw();
+          $.ajax({
+          url: "{% url 'hab_app:deleteDetails' %}",
+          data: {
+            pm : det
+          },
           type : "GET",
-          url : "{% url 'hab_app:showDetails' %}?param=det",
+          success: function (data) {
+            $($this).closest('tr').remove();
+
+          }
         });
+
+        }
+
       }
       </script>
 

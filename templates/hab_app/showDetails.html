@@ -1,95 +1,284 @@
-{% extends "hab_app/caretakerView.html" %}
-{% block body_block %}
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>HAB</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="{% static 'bower_components/Ionicons/css/ionicons.min.css' %}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/AdminLTE.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/header.css' %}">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="{% static 'dist/css/skins/_all-skins.min.css' %}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+{# datetime#}
+  <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/redmond/jquery-ui.css" rel="Stylesheet" />
 
-<div class="cointainer">
-<div class="col">
-  <table class="table table-striped">
-    <thead>
-      <tr class ="bg-primary">
-        <td><strong>Occupant Details</strong></td><td><strong></td>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>Name:</strong></td><td>{{details.name}}</td>
-      </tr>
-      <tr>
-        <td><strong>Id type:</strong></td><td>{{details.idType}}</td>
-      </tr>
-      <tr>
-        <td><strong>Id No:</strong></td><td>{{details.idNo}}</td>
-      </tr>
-      <tr>
-        <td><strong>Gender:</strong></td><td>{{details.gender}}</td>
-      </tr>
-      <tr>
-        <td><strong>SA/DA:</strong></td><td>{{details.saORda}}</td>
-      </tr>
-      <tr>
-        <td><strong>Webmail:</strong></td><td>{{details.webmail}}</td>
-      </tr>
-      <tr>
-        <td><strong>Alternate Email:</strong></td><td>{{details.altEmail}}</td>
-      </tr>
-      <tr>
-        <td><strong>Mobile No:</strong></td><td>{{details.mobNo}}</td>
-      </tr>
-      <tr>
-        <td><strong>Emergency No:</strong></td><td>{{details.emgercencyNo}}</td>
-      </tr>
-      <tr>
-        <td><strong>Bank Account No:</strong></td><td>{{details.bankAccount}}</td>
-      </tr>
-      <tr>
-        <td><strong>IFSC code:</strong></td><td>{{details.IFSCCode}}</td>
-      </tr>
-      <tr>
-        <td><strong>Account Holder Name:</strong></td><td>{{details.accHolderName}}</td>
-      </tr>
-    </tbody>
-  </table>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
+{# datetime#}
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+
+  <!-- Google Font -->
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+  {# <div id="main_header"><img class="margin" src='images/mainLogo.png'><h1>Indian Institute of Technology Guwahati</h1></div>#}
+<div class="wrapper">
+
+  <header class="main-header">
+    <!-- Logo -->
+
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+
+      <!-- logo for regular state and mobile devices -->
+
+    <!-- Header Navbar: style can be found in header.less -->
+
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+
+
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+
+      <!-- Sidebar user panel (optional) -->
+
+
+      <!-- search form (Optional) -->
+
+      <!-- /.search form -->
+
+      <!-- Sidebar Menu -->
+      <li class="sidebar-search">
+        <div class="input-group custom-search-form" style="text-align:center;">
+          <a href="{% url 'hab_app:index' %}"><img width="45%" src="{% static 'images/iitg.png' %}"></a>
+        </div>
+                                <!-- /input-group -->
+      </li>
+      <ul class="sidebar-menu" data-widget="tree" id="xyz">
+        <li class="header">HEADER</li>
+        <!-- Optionally, you can add icons to the links -->
+        <li ><a  href="{% url 'hab_app:vacate' %}"> <span>Rooms to be vacated</span></a></li>
+        <li><a href="{% url 'hab_app:allot' %}"> <span>Rooms to be alloted</span></a></li>
+        <li><a href="{% url 'hab_app:existingOccupants' %}"> <span>Existing Occupants</span></a></li>
+        <li class=" treeview">
+          <a href="#">
+            <span>Room Details</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{% url 'hab_app:roomDetails' %}?param=1">Occupied Rooms</a></li>
+            <li><a href="{% url 'hab_app:roomDetails' %}?param=2">Empty Rooms</a></li>
+            <li><a href="{% url 'hab_app:roomDetails' %}?param=3">Total Rooms</a></li>
+          </ul>
+        </li>
+      </ul>
+      <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+
+          <!-- /.box -->
+
+
+
+            <!-- /.box-header -->
+
+
+            <div class="col-md-6">
+              <div class="box box-solid box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Occupant Details</h3>
+                </div>
+            <table class="table table-striped" >
+              <thead>
+
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Name:</strong></td><td>{{details.name}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Id type:</strong></td><td>{{details.idType}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Id No:</strong></td><td>{{details.idNo}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Gender:</strong></td><td>{{details.gender}}</td>
+                </tr>
+                <tr>
+                  <td><strong>SA/DA:</strong></td><td>{{details.saORda}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Webmail:</strong></td><td>{{details.webmail}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Alternate Email:</strong></td><td>{{details.altEmail}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Mobile No:</strong></td><td>{{details.mobNo}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Emergency No:</strong></td><td>{{details.emgercencyNo}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Bank Account No:</strong></td><td>{{details.bankAccount}}</td>
+                </tr>
+                <tr>
+                  <td><strong>IFSC code:</strong></td><td>{{details.IFSCCode}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Account Holder Name:</strong></td><td>{{details.accHolderName}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </div>
+          <div class="col-md-6">
+            <div class="box box-solid box-info">
+              <div class="box-header with-border">
+                <h3 class="box-title">Room Occupant Details</h3>
+              </div>
+                <table class = "table table-striped" >
+                  <thead>
+
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Hostel Name:</strong></td><td>{{roDetails.hostelName}}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Room No:</strong></td><td>{{roDetails.roomNo}}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Mess Status:</strong></td><td>{{roDetails.messStatus}}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>To Mess Date:</strong></td><td>{{roDetails.toMess}}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>From Mess Date:</strong></td><td>{{roDetails.fromMess}}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>To Room Stay:</strong></td><td>{{roDetails.toRoomStay}}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>From Room Stay:</strong></td><td>{{roDetails.fromRoomStay}}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Comments:</strong></td><td>{{roDetails.comments}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+          </div>
+            </div>
+
+
+
+          <div class="col-lg-9 col-md-9">
+            <a class="btn btn-primary" href="{% url 'hab_app:vacate' %}" role="button">Back</a>
+          </div>
+
+
+            <!-- /.box-body -->
+
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
   </div>
-  <div class="col">
-      <table class = "table table-striped">
-        <thead>
-          <tr class ="bg-primary">
-            <td><strong>Room Occupant Details</strong></td><td><strong></td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Hostel Name:</strong></td><td>{{roDetails.hostelName}}</td>
-          </tr>
-          <tr>
-            <td><strong>Room No:</strong></td><td>{{roDetails.roomNo}}</td>
-          </tr>
-          <tr>
-            <td><strong>Mess Status:</strong></td><td>{{roDetails.messStatus}}</td>
-          </tr>
-          <tr>
-            <td><strong>To Mess Date:</strong></td><td>{{roDetails.toMess}}</td>
-          </tr>
-          <tr>
-            <td><strong>From Mess Date:</strong></td><td>{{roDetails.fromMess}}</td>
-          </tr>
-          <tr>
-            <td><strong>To Room Stay:</strong></td><td>{{roDetails.toRoomStay}}</td>
-          </tr>
-          <tr>
-            <td><strong>From Room Stay:</strong></td><td>{{roDetails.fromRoomStay}}</td>
-          </tr>
-          <tr>
-            <td><strong>Comments:</strong></td><td>{{roDetails.comments}}</td>
-          </tr>
-        </tbody>
-      </table>
+  <!-- /.content-wrapper -->
+{# footer#}
+
+  <!-- Control Sidebar -->
+
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+<script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<!-- DataTables -->
+<script src="{% static 'bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+<!-- SlimScroll -->
+<script src="{% static 'bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
+<!-- FastClick -->
+<script src="{% static 'bower_components/fastclick/lib/fastclick.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static 'dist/js/demo.js' %}"></script>
+<!-- page script -->
+<link rel="stylesheet" type="text/css" href="http://jquery-ui.googlecode.com/svn/tags/latest/themes/base/jquery-ui.css" media="all" />
+
+<script type="text/javascript">
+  $(function(){
+    $("#id_toRoomStay").datepicker({ dateFormat: 'yy-mm-dd' });
+    $("#id_fromRoomStay").datepicker({ dateFormat: 'yy-mm-dd' });
+  });
+</script>
+
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false,
+    })
+  })
+</script>
 
 
-  </div>
-</div>
 
 
-<div class="col-lg-9 col-md-9">
-  <a class="btn btn-primary" href="{% url 'hab_app:vacate' %}" role="button">Back</a>
-</div>
-{% endblock %}
+</body>
+</html>

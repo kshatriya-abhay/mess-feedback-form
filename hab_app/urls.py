@@ -19,4 +19,6 @@ urlpatterns = [
     url(r'^generalAllot/$', views.generalAllot,name='generalAllot'),
     url(r'^trackApplication/$', views.trackApplication,name='trackApplication'),
     url(r'^deleteDetails/$', views.deleteDetails,name='deleteDetails'),
+    url(r'^existingOccupants/$', views.existingOccupants,name='existingOccupants'),
+    url(r'^roomDetails/$', views.roomDetails,name='roomDetails'),
 ]

@@ -27,6 +27,7 @@ ID_CHOICES =(
 GENDER_CHOICES =(
     ('Male','Male'),
     ('Female','Female'),
+    ('Other','Other'),
 )
 STATUS_CHOICES =(
     ('Pending','Pending'),
@@ -47,6 +48,18 @@ PURPOSE_CHOICES =(
     ('Intern','Intern'),
     ('Project','Project'),
     ('Unofficial','Unofficial'),
+)
+ROOM_STATUS_CHOICES =(
+    ('Usable','Usable'),
+    ('Abandoned','Abandoned'),
+    ('Partially Damaged','Partially Damaged'),
+)
+FLOOR_CHOICES =(
+    ('Ground','Ground'),
+    ('First','First'),
+    ('Second','Second'),
+    ('Third','Third'),
+    ('Fourth','Fourth'),
 )
 ABILITY_CHOICES =(
     ('Specially/Differently Abled','Specially/Differently Abled'),
@@ -112,11 +125,14 @@ class HostelRoom(models.Model):
     #occupancy as singlee/double etc
     roomOccupancyType = models.ForeignKey(RoomCategory)
     #floor as 1st/2nd etc
-    floorInfo = models.CharField(max_length=255)
+    floorInfo = models.CharField(max_length=255,choices = FLOOR_CHOICES)
     #status as abandoned/partially damaged etc
-    roomStatus = models.CharField(max_length=255)
-    roomOccupancyGender = models.CharField(max_length=255)
+    roomStatus = models.CharField(max_length=255,choices=ROOM_STATUS_CHOICES)
+    roomOccupancyGender = models.CharField(max_length=255,choices=GENDER_CHOICES)
     comments = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.roomNo
 
 #table with information regarding occupants staying in hostel.one for each hostel
 
@@ -130,15 +146,17 @@ class HostelRoomOccupantRelation(models.Model):
     #mess subscription status
     messStatus = models.CharField(max_length=255 ,choices = MESS_CHOICES)
     #toMess - end date of mess subscription
-    toMess = models.DateField()
+    toMess = models.DateField(null = True,blank= True)
     #fromMess - start date of mess subscription
-    fromMess = models.DateField()
+    fromMess = models.DateField(null = True,blank= True)
     #toRoomStay - end date of room stay
     toRoomStay = models.DateField(null = False,blank= False)
     #fromRoomStay - start date of room stay
     fromRoomStay = models.DateField(null = False,blank= False)
     comment = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.occupantId
 #table with name and webmail of the people with access permissions(view only).one for each hostel
 
 class HostelViewAccess(models.Model):
@@ -148,6 +166,8 @@ class HostelViewAccess(models.Model):
     name = models.CharField(max_length=255,null=False)
     webmail = models.CharField(max_length=255,primary_key=True)
 
+    def __str__(self):
+        return self.webmail
 
 #table with all information of a particular OccupantDetails
 
@@ -178,6 +198,8 @@ class OccupantDetails(models.Model):
     #account holder name
     accHolderName = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
 #following are the hostelRoom,roomOccupantRelation and view access tables for each hostel(13*3=39 tables)
 #hostelRoom inherits HostelRoom
 #hostelView inherits HostelViewAccess
@@ -218,7 +240,8 @@ class UpcomingOccupantRequest(models.Model):
         verbose_name = "allotment"
         verbose_name_plural = "allotment"
         unique_together = ('Mobile_No', 'Emergency_Mobile_No',)
-
+    def __str__(self):
+        return self.guestname
 
 class UpcomingOccupant(models.Model):
     class Meta:
@@ -231,6 +254,9 @@ class UpcomingOccupant(models.Model):
     roomNo = models.CharField(max_length=255,blank=True,null=True)
     fromStay = models.DateField()
     toStay = models.DateField()
+
+    def __str__(self):
+        return self.occupantName
 
 
 class Login(models.Model):
