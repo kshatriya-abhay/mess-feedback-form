@@ -144,3 +144,7 @@ MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
 LOGIN_URL = '/hab_app/user_login'
+try:
+    from local_settings import *
+except ImportError:
+    pass
