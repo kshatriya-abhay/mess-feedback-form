@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect,HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
@@ -7,11 +7,29 @@ from hab_app.models import *
 from datetime import *
 from django.apps import apps
 from hab_app.forms import *
-from django.contrib.auth.decorators import login_required
+
 # Create your views here
 
 def index(request):
+    if request.session['username'] == "chr_hab":
+        hostels = AllHostelMetaData.objects.all()
+        return render(request,'hab_app/chrView.html',{'hostels':hostels})
+    elif request.session['username'][-3:]== "off":
+        username = request.session['username'][:-3]
+        ROtable = AllHostelMetaData.objects.get(hostelName__iexact = username)
+        return render(request,'hab_app/caretakerView.html',{'ROtable':ROtable})
+    elif request.session['username'][:3]== "hod":
+        return render(request,'hab_app/headView.html')
+    else:
+        return render(request,'hab_app/generalView.html')
+
+def login_page(request):
     return render(request,'hab_app/login.html')
+
+@login_required
+def logout1(request):
+    logout(request)
+    return redirect('hab_app:login_page')
 
 def showDetails(request):
     ROtable = AllHostelMetaData.objects.get(hostelName__iexact = request.session['username'][:-3])
@@ -24,9 +42,7 @@ def showDetails(request):
         roDetails = mymodel.objects.get(occupantId__iexact = parameter)
         return render(request,'hab_app/showDetails.html',{'details':details,'roDetails':roDetails})
 
-
 def showDetails2(request):
-
     if request.method == 'GET':
         parameter = request.GET.get('param')
         pobj = OccupantDetails.models.get(idNo=parameter)
@@ -37,31 +53,24 @@ def showDetails2(request):
         roDetails = mymodel.objects.get(occupantId__iexact = parameter)
         return render(request,'hab_app/showDetails2.html',{'details':details,'roDetails':roDetails})
 
-
-
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        request.session['username'] = username
-        request.session['password'] = password
-        if Login.objects.filter(webmail=username).count() == 1:
-
-            if username == "chr_hab":
-                hostels = AllHostelMetaData.objects.all()
-                return render(request,'hab_app/chrView.html',{'hostels':hostels})
-
-            elif username[-3:]== "off":
-                username = username[:-3]
-                ROtable = AllHostelMetaData.objects.get(hostelName__iexact = username)
-                return render(request,'hab_app/caretakerView.html',{'ROtable':ROtable})
-            elif username[:3]== "hod":
-                return render(request,'hab_app/headView.html')
+        user = authenticate(username=username,password=password)
+        if user:
+            if user.is_active:
+                login(request,user)
+                request.session['username'] = username
+                request.session['password'] = password
+                return HttpResponseRedirect(reverse('index'))
             else:
-                return render(request,'hab_app/generalView.html')
-
+                return HttpResponse("account not active")
         else:
-            return render(request,'hab_app/login.html')
+            return HttpResponse("Invalid Login Credentials")
+
+    else:
+        return render(request,'hab_app/login.html')
 
 
 def home(request):

@@ -4,8 +4,8 @@ from django.contrib import admin
 app_name = 'hab_app'
 
 urlpatterns = [
-    url(r'^index/$', views.index,name='index'),
     url(r'^login/$', views.user_login,name='user_login'),
+    url(r'^login_page/$', views.login_page,name='login_page'),
     url(r'^vacate/$', views.vacate,name='vacate'),
     url(r'^allot/$', views.allot,name='allot'),
     url(r'^home/$', views.home,name='home'),

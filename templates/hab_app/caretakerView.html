@@ -46,7 +46,7 @@
   <header class="main-header">
     <!-- Logo -->
 
-    <a href="{% url 'hab_app:index' %}" class="logo">
+    <a href="{% url 'hab_app:login_page' %}" class="logo">
      <!-- mini logo for sidebar mini 50x50 pixels -->
      <span class="logo-mini"><b>A</b>LT</span>
      <!-- logo for regular state and mobile devices -->
@@ -59,7 +59,11 @@
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
       <h2 style=" text-align : center;color:white;">Welcome to  Caretaker of {{ ROtable.hostelName}} </h2>
-
+      {% if user.is_authenticated %}
+        <li><a class ="navbar-link" href="{% url 'logout1' %}">Logout</a></li>
+      {% else %}
+        <li><a class ="navbar-link" href="{% url 'hab_app:user_login' %}">Login</a></li>
+      {% endif %}
     </nav>
   </header>
 

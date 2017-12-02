@@ -50,7 +50,11 @@
 
   <header class="main-header">
     <!-- Logo -->
-
+    {% if user.is_authenticated %}
+      <li><a class ="navbar-link" href="{% url 'logout1' %}">Logout</a></li>
+    {% else %}
+      <li><a class ="navbar-link" href="{% url 'hab_app:user_login' %}">Login</a></li>
+    {% endif %}
       <!-- mini logo for sidebar mini 50x50 pixels -->
 
       <!-- logo for regular state and mobile devices -->
@@ -77,7 +81,7 @@
       <!-- Sidebar Menu -->
       <li class="sidebar-search">
         <div class="input-group custom-search-form" style="text-align:center;">
-          <a href="{% url 'hab_app:index' %}"><img width="45%" src="{% static 'images/iitg.png' %}"></a>
+          <a href="{% url 'hab_app:login_page' %}"><img width="45%" src="{% static 'images/iitg.png' %}"></a>
         </div>
                                 <!-- /input-group -->
       </li>

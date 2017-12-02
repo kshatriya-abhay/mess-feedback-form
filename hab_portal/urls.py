@@ -17,6 +17,8 @@ from django.conf.urls import url,include
 from django.contrib import admin
 from hab_app import views
 urlpatterns = [
+    url(r'^index/$', views.index,name='index'),
     url(r'^admin/', admin.site.urls),
     url(r'^hab_app/', include('hab_app.urls')),
+    url(r'^logout1/$', views.logout1,name='logout1'),
 ]

@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'hab_app',
     'django_mailbox',
-    'import_export'
+    'import_export',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
