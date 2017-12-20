@@ -91,12 +91,8 @@ WSGI_APPLICATION = 'hab_portal.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'hab_portal',
-        'USER': 'hab_portal_user',
-        'PASSWORD': 'SWC@giit',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
