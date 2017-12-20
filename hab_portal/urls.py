@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^hab_portal/index/$', views.index,name='index'),
     url(r'^hab_portal/admin/', admin.site.urls),
     url(r'^hab_portal/hab_app/', include('hab_app.urls')),
+    url(r'^hab_portal/student_portal/', include('student_portal.urls')),
     url(r'^hab_portal/logout1/$', views.logout1,name='logout1'),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_DIR)

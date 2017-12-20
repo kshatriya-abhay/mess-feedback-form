@@ -7,6 +7,7 @@ django-admin-import==0.3.0
 django-autoslug==1.9.3
 django-bootstrap3==9.0.0
 django-braces==1.11.0
+django-iitg-auth==0.0.4
 django-import-export==0.6.0
 django-mailbox==4.6.0
 djangorestframework==3.6.4
