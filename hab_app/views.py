@@ -102,19 +102,20 @@ def allot(request):
 
 
 def chrAllot(request):
+    hostels = AllHostelMetaData.objects.all()
     if request.method == 'POST':
         form = UpcomingOccupantForm(data=request.POST)
         if form.is_valid:
             occupant = form.save()
             occupant.save()
             form = UpcomingOccupantForm()
-            return render(request,'hab_app/addOccupant.html',{'form':form})
+            return render(request,'hab_app/addOccupant.html',{'form':form,'hostels':hostels})
         else:
             print(form.errors)
 
     else:
         form = UpcomingOccupantForm()
-        return render(request,'hab_app/addOccupant.html',{'form':form})
+        return render(request,'hab_app/addOccupant.html',{'form':form,'hostels':hostels})
 
 def addDetails(request):
     ROtable = AllHostelMetaData.objects.get(hostelName__iexact = request.session['username'][:-3])
@@ -259,8 +260,8 @@ def generalAllot(request):
         else:
             print(form.errors)
     else:
-        obj = Login.objects.get(webmail = request.session['username'])
-        initialData = {'Host_Name':obj.name,'Host_Webmail_Id':obj.webmail}
+        obj = User.objects.get(username = request.session['username'])
+        initialData = {'Host_Name':obj.first_name,'Host_Webmail_Id':obj.username}
         form = UpcomingOccupantRequestForm(initial = initialData)
         return render(request,"hab_app/generalAllot.html",{'form':form})
 
@@ -291,6 +292,7 @@ def disapproveApplication(request):
     return render(request,"hab_app/approveApplication.html",{'applicants':applicants})
 
 def chrApproveApplication(request):
+    hostels = AllHostelMetaData.objects.all()
     if request.method == 'GET':
         if request.GET.get('param') :
             idNo = request.GET.get('param')
@@ -298,7 +300,7 @@ def chrApproveApplication(request):
             guest.isApprovedChr = "Approved"
             guest.save()
     applicants = UpcomingOccupantRequest.objects.filter( isApprovedFirst = "Approved",isApprovedChr = "Pending" )
-    return render(request,"hab_app/chrApproveApplication.html",{'applicants':applicants})
+    return render(request,"hab_app/chrApproveApplication.html",{'applicants':applicants,'hostels':hostels})
 
 
 def chrDisapproveApplication(request):
@@ -344,3 +346,81 @@ def chrViewRoom(request):
                     empty_rooms.append(i)
             hostels = AllHostelMetaData.objects.all()
             return render(request,'hab_app/chrViewRoom.html',{'ROtable':ROtable,'zipped':zipped ,'empty_rooms':empty_rooms,'hostels':hostels})
+
+
+def chrHostelSummary(request):
+    hostels = AllHostelMetaData.objects.all()
+    hostel_names = list()
+
+    hostelSummary = list()
+    for i in hostels:
+        curr_hostel = list()
+        hostel = i.hostelName
+        ROtable = AllHostelMetaData.objects.get(hostelName__iexact = hostel)
+        relation_table = ROtable.hostelRoomOccupant
+        room_table = ROtable.hostelRoom
+        # get the model names for query
+        relation_model = apps.get_model(app_label='hab_app', model_name=relation_table)
+        room_model = apps.get_model(app_label='hab_app', model_name=room_table)
+        relation = relation_model.objects.all()
+        occupants = list()
+        room_list = list()
+
+        for i in relation:
+            if OccupantDetails.objects.filter(idNo__iexact=i.occupantId).count() == 1:
+                occupants.append(OccupantDetails.objects.get(idNo__iexact=i.occupantId))
+                if room_model.objects.filter(roomNo = i.roomNo).count() == 1:
+                    room_list.append(room_model.objects.get(roomNo = i.roomNo))
+
+        zipped = zip(room_list,occupants)
+        #for empty rooms
+        empty_rooms = list()
+        all_rooms = room_model.objects.all()
+        curr_hostel.append(len(all_rooms))
+        curr_hostel.append(len(room_list))
+        abandoned=0
+        usable=0
+        partial=0
+        # single=0
+        # double=0
+        # with_toilet=0
+        # guest=0
+        # official=0
+        for i in all_rooms:
+            if i.roomStatus == "Abandoned":
+                abandoned= abandoned+1
+            if i.roomStatus == "Usable":
+                usable=usable+1
+            if i.roomStatus == "Partially Damaged":
+                partial=partial+1
+            # if i.roomOccupancyType == RoomCategory.objects.get(roomId=1).description:
+            #     print(single)
+            #     single=   single+1
+            # if i.roomOccupancyType == "Double Occupancy":
+            #     double=   double+1
+            # if i.roomOccupancyType == "Official Use":
+            #     official=   official+1
+            # if i.roomOccupancyType == "Guest Room":
+            #     guest=   guest+1
+            # if i.roomOccupancyType == "Single Occupancy With Toilet":
+            #     with_toilet=   with_toilet+1
+
+            flag = 0
+            for j in room_list:
+                if i.roomNo == j.roomNo:
+                    flag = 1
+                    break
+            if flag == 0:
+                empty_rooms.append(i)
+        curr_hostel.append(len(empty_rooms))
+        curr_hostel.append(usable)
+        curr_hostel.append(partial)
+        curr_hostel.append(abandoned)
+        # curr_hostel.append(single)
+        # curr_hostel.append(double)
+        # curr_hostel.append(official)
+        # curr_hostel.append(guest)
+        # curr_hostel.append(with_toilet)
+        hostelSummary.append(curr_hostel)
+        zipped_summary = zip(hostelSummary,hostels)
+    return render(request,'hab_app/chrHostelSummary.html',{'zipped_summary':zipped_summary,'hostels':hostels})

@@ -16,9 +16,11 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 from hab_app import views
+from django.conf.urls.static import static
+from . import settings
 urlpatterns = [
-    url(r'^index/$', views.index,name='index'),
-    url(r'^admin/', admin.site.urls),
-    url(r'^hab_app/', include('hab_app.urls')),
-    url(r'^logout1/$', views.logout1,name='logout1'),
-]
+    url(r'^hab_portal/index/$', views.index,name='index'),
+    url(r'^hab_portal/admin/', admin.site.urls),
+    url(r'^hab_portal/hab_app/', include('hab_app.urls')),
+    url(r'^hab_portal/logout1/$', views.logout1,name='logout1'),
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_DIR)

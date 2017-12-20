@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'hab_app',
-    'django_mailbox',
+ 
     'import_export',
     'bootstrap3',
 ]
@@ -93,8 +93,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'hab_portal',
-        'USER': 'rajas',
-        'PASSWORD': 'rajasB6*3',
+        'USER': 'hab_portal_user',
+        'PASSWORD': 'SWC@giit',
         'HOST': 'localhost',
         'PORT': '',
     }

@@ -2,7 +2,8 @@ from django.conf.urls import url
 from hab_app import views
 from django.contrib import admin
 app_name = 'hab_app'
-
+from django.conf.urls.static import static
+from hab_portal import settings
 urlpatterns = [
     url(r'^login/$', views.user_login,name='user_login'),
     url(r'^login_page/$', views.login_page,name='login_page'),
@@ -23,4 +24,5 @@ urlpatterns = [
     url(r'^existingOccupants/$', views.existingOccupants,name='existingOccupants'),
     url(r'^roomDetails/$', views.roomDetails,name='roomDetails'),
     url(r'^chrViewRoom/$', views.chrViewRoom,name='chrViewRoom'),
-]
+    url(r'^chrHostelSummary/$', views.chrHostelSummary,name='chrHostelSummary'),
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_DIR)

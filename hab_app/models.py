@@ -140,22 +140,22 @@ class HostelRoomOccupantRelation(models.Model):
         verbose_name = "HostelRoomOccupantRelation"
         verbose_name_plural = "HostelRoomOccupantRelation"
     hostelName = models.CharField(max_length=255,null = False,blank= False)
-    roomNo = models.CharField(max_length=255,null = False,blank= False)
-    occupantId = models.CharField(max_length=255,null = False,blank= False)
+    roomNo = models.CharField(max_length=255,null = True,blank= True)
+    occupantId = models.CharField(max_length=255,null = True,blank= True)
     #mess subscription status
-    messStatus = models.CharField(max_length=255 ,choices = MESS_CHOICES)
+    messStatus = models.CharField(max_length=255 ,choices = MESS_CHOICES,null = True,blank= True)
     #toMess - end date of mess subscription
     toMess = models.DateField(null = True,blank= True)
     #fromMess - start date of mess subscription
     fromMess = models.DateField(null = True,blank= True)
     #toRoomStay - end date of room stay
-    toRoomStay = models.DateField(null = False,blank= False)
+    toRoomStay = models.DateField(null = True,blank= True)
     #fromRoomStay - start date of room stay
-    fromRoomStay = models.DateField(null = False,blank= False)
-    comment = models.CharField(max_length=255)
+    fromRoomStay = models.DateField(null = True,blank= True)
+    comment = models.CharField(max_length=255,null = True,blank= True)
 
     def __str__(self):
-        return self.occupantId
+        return str(self.occupantId)
 #table with name and webmail of the people with access permissions(view only).one for each hostel
 
 class HostelViewAccess(models.Model):
@@ -179,30 +179,32 @@ class OccupantDetails(models.Model):
     class Meta:
         verbose_name = "OccupantDetails"
         verbose_name_plural = "OccupantDetails"
-    name = models.CharField(max_length=255,null = False,blank= False)
+    name = models.CharField(max_length=255,null = True,blank= True)
     #id type - roll no/aadhar no/project id etc
-    idType = models.CharField(max_length=255,choices = ID_CHOICES,null = False,blank= False)
+    idType = models.CharField(max_length=255,choices = ID_CHOICES,null = True,blank= True)
     #rollno/aadhar no etc
-    idNo = models.CharField(max_length=255,primary_key=True,null = False,blank= False)
-    gender = models.CharField(max_length=255,choices = GENDER_CHOICES,null = False,blank= False)
+    #primary_key removed temp
+    idNo = models.CharField(max_length=255,primary_key=True,null=False)
+#vgv
+    gender = models.CharField(max_length=255,choices = GENDER_CHOICES,null = True,blank= True)
     #specially abled/differently abled
-    saORda = models.CharField(max_length=255,choices = ABILITY_CHOICES)
-    webmail = models.CharField(max_length=255)
-    altEmail = models.CharField(max_length=255)
-    mobNo = models.CharField(max_length=255)
+    saORda = models.CharField(max_length=255,choices = ABILITY_CHOICES,null = True,blank= True)
+    webmail = models.CharField(max_length=255,null = True,blank= True)
+    altEmail = models.CharField(max_length=255,null = True,blank= True)
+    mobNo = models.CharField(max_length=255,null = True,blank= True)
     emgercencyNo = models.CharField(max_length=255)
-    photo = models.ImageField(upload_to='profile_pics',blank=True,validators=[validate_image])
-    idPhoto = models.ImageField(upload_to='id_pics',blank=True,validators=[validate_image])
-    Address=models.CharField(max_length=300)
-    Pincode=models.PositiveIntegerField( validators=[MaxValueValidator(999999)])
-    bankName = models.CharField(max_length=255)
-    bankAccount = models.CharField(max_length=255)
-    IFSCCode = models.CharField(max_length=255)
+    photo = models.ImageField(upload_to='profile_pics',blank=True,validators=[validate_image],null=True)
+    idPhoto = models.ImageField(upload_to='id_pics',blank=True,validators=[validate_image],null=True)
+    Address=models.CharField(max_length=300,null = True,blank= True)
+    Pincode=models.PositiveIntegerField( validators=[MaxValueValidator(999999)],null = True,blank= True)
+    bankName = models.CharField(max_length=255,null = True,blank= True)
+    bankAccount = models.CharField(max_length=255,null = True,blank= True)
+    IFSCCode = models.CharField(max_length=255,null = True,blank= True)
     #account holder name
-    accHolderName = models.CharField(max_length=255)
+    accHolderName = models.CharField(max_length=255,null = True,blank= True)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 #following are the hostelRoom,roomOccupantRelation and view access tables for each hostel(13*3=39 tables)
 #hostelRoom inherits HostelRoom
 #hostelView inherits HostelViewAccess
