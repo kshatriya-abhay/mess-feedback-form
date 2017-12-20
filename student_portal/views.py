@@ -10,7 +10,7 @@ from iitgauth.views import WebmailLoginView
 
     # Views for Webmail Login
 
-class LoginView(WebmailLoginView):
+class LoginView(WebmailLoginView, TemplateView):
 
     template_name = 'student_portal/login.html'
     success_url = reverse_lazy('home') #url change
