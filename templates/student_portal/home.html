@@ -1,5 +1,10 @@
+{%extends 'student_portal/base.html'%}
+
 {% load static %}
+{%block content%}
+<br><br>
+<a href="{% url 'logout' %}">Logout</a>
 <p>
 You are logged in as {{user}}
 </p>
-<a href="{% url 'logout' %}">Logout</a>
+{%endblock%}

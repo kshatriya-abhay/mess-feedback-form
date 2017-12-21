@@ -15,8 +15,10 @@ class LoginView(WebmailLoginView, TemplateView):
     template_name = 'student_portal/login.html'
     success_url = reverse_lazy('home') #url change
 
-class HomeView(LoginRequiredMixin, TemplateView):
-    login_url = reverse_lazy('login')
+    # toggle below 3 lines comment status to make login necessary
+# class HomeView(LoginRequiredMixin, TemplateView):
+class HomeView(TemplateView):
+    # login_url = reverse_lazy('login')
     template_name = 'student_portal/home.html'
 
     def get_context_data(self, **kwargs):
