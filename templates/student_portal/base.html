@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>HAB - Student Portal</title>
+  <title>HAB</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   {# datetime#}
@@ -44,8 +44,11 @@
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body>
-  <!-- <header class="main-header"> -->
+<body class="hold-transition skin-black sidebar-mini">
+  {# <div id="main_header"><img class="margin" src='images/mainLogo.png'><h1>Indian Institute of Technology Guwahati</h1></div>#}
+<div class="wrapper">
+
+  <header class="main-header">
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="navbar-header">
         <a class="navbar-brand" href="{% url 'home' %}">HAB Student Portal</a>
@@ -75,96 +78,122 @@
       </ul>
       <!-- /.navbar-top-links -->
       </nav>
-  <!-- </header> -->
-  <!-- Site wrapper -->
-  <div class="wrapper">
+
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+
+
+  <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
-      <div class="navbar-default sidebar" role="navigation">
-        <div class="sidebar-nav navbar-collapse">
-          <ul class="nav" id="side-menu">
-            <li class="sidebar-search">
-              <div class="input-group custom-search-form" style="text-align:center;">
-                 <a href="{% url 'home' %}"><img width="45%" src="media/iitg.png"></a>
-              </div>
-                <!-- /input-group -->
-            </li>
-            <li>
-                <a href="{% url 'home' %}"><i class="fa fa-home fa-fw"></i> Dashboard</a>
-            </li>
-            <li>
-                <a href="{% url 'home' %}"><i class="fa fa-history fa-fw"></i> Mess Feedback</a>
-            </li>
-            <!-- <li>
-              <a href="#"><i class="fa fa-bed fa-fw"></i> Guesthouse Booking<span class="fa arrow"></span></a>
-              <ul class="nav nav-second-level">
-                <li>
-                  <a href="system_book_guesthouse.php"> New Booking</a>
-                </li>
-                <li>
-                  <a href="system_track_guesthouse_application.php"> Booking History</a>
-                </li>
-                <li>
-                  <a href="system_guesthouse_rules.php"> Booking Rules</a>
-                </li>
-              </ul>
-                  /.nav-second-level
-            </li> -->
-            <!--
-            <li>
-                <a href="system_anonymous_complaint.php"><i class="fa fa-question-circle fa-fw"></i> Anonymous Complaints</a>
-            </li>
-            <li>
-                <a href="system_room_details.php"><i class="fa fa-list-alt fa-fw"></i> Vacation Stay Approval</a>
-            </li>
-            -->
-            <!-- <li>
-              <a href="#"><i class="fa fa-bus fa-fw"></i> Station Leave Request<span class="fa arrow"></span></a>
-              <ul class="nav nav-second-level">
-                <li>
-                  <a href="system_departure_arrival_info.php"> New Request</a>
-                </li>
-                <li>
-                  <a href="system_track_departure_arrival_info.php"> Previous Request(s)</a>
-                </li>
-              </ul>
-              /.nav-second-level
-            </li>
-            <li>
-              <a href="system_query_grievance.php"><i class="fa fa-comments fa-fw"></i> Query and Grievance</a>
-            </li>
-            <li>
-                <a href="system_all_forms.php"><i class="fa fa-edit fa-fw"></i> Centralized Forms</a>
-            </li>
-            <li>
-                <a href="system_student_details.php"><i class="fa fa-users fa-fw"></i> Search Student's Details</a>
-            </li> -->
-          </ul>
+
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+
+      <!-- Sidebar user panel (optional) -->
+
+
+      <!-- search form (Optional) -->
+
+      <!-- /.search form -->
+
+      <!-- Sidebar Menu -->
+      <li class="sidebar-search">
+        <div class="input-group custom-search-form" style="text-align:center;">
+          <a href="{% url 'home' %}"><img width="45%" src="{% static 'images/iitg.png' %}"></a>
         </div>
-        <!-- /.sidebar-collapse -->
-      </div>
-      <!-- /.navbar-static-side -->
-    </aside>
-
-    <div class="content-wrapper">
-      <!-- Content Header (Page header) -->
-      <section class="content-header">
-        <h1>
-          {%block title_inpage%}{%endblock%}
-        </h1>
+                                <!-- /input-group -->
+      </li>
+      <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">HEADER</li>
+        <!-- Optionally, you can add icons to the links -->
+        <li ><a href="{% url 'home' %}"> <span>Home</span></a></li>
+        <!-- <li ><a href="{% url 'hab_app:chrApproveApplication' %}"> <span>Approve Applications</span></a></li>
+        <li ><a href="{% url 'hab_app:chrHostelSummary' %}"> <span>Hostel Summary</span></a></li> -->
+        <li class=" treeview">
+          <a href="#">
+            <span>Mess Related</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+        <ul class="treeview-menu">
+          <li><a href="{% url 'home' %}">Mess Feedback</a></li>
+          <li><a href="{% url 'home' %}">Mess Preference</a></li>
+          <li><a href="{% url 'home' %}">Mess Leave</a></li>
+        </ul>
+      </li>
+      </ul>
+      <!-- /.sidebar-menu -->
     </section>
+    <!-- /.sidebar -->
+  </aside>
+
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <h1>welcome {{user}}</h1>
+
+
+    <!-- Main content -->
     <section class="content">
-          {%block content%}{%endblock%}
-    </section>
+      <div class="row">
+        <div class="col-xs-12">
 
+          <!-- /.box -->
+
+          <div class="box">
+            <div class="box-header">
+
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                {% block body_block %}
+                {% endblock %}
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
     <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-    <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 0.0.1a
-    </div>
-    <strong>SWC</strong>
-    </footer>
-</div>
-</div>
+  </div>
+  <!-- /.content-wrapper -->
+{# footer#}
+
+  <!-- Control Sidebar -->
+
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+<script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<!-- DataTables -->
+<script src="{% static 'bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+<!-- SlimScroll -->
+<script src="{% static 'bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
+<!-- FastClick -->
+<script src="{% static 'bower_components/fastclick/lib/fastclick.js' %}"></script>
+
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static 'dist/js/demo.js' %}"></script>
+<!-- page script -->
+<link rel="stylesheet" type="text/css" href="http://jquery-ui.googlecode.com/svn/tags/latest/themes/base/jquery-ui.css" media="all" />
+
+
 </body>
+</html>
