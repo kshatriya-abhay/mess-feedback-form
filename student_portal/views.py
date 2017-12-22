@@ -4,8 +4,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, View
+from django.views.generic.edit import CreateView, UpdateView
 
 from iitgauth.views import WebmailLoginView
+from .models import *
+from datetime import datetime
 # Create your views here.
 
     # Views for Webmail Login
@@ -36,3 +39,29 @@ class LogoutView(LoginRequiredMixin, View):
         return redirect('login')
 
         # end of Views for Webmail Login
+
+
+
+class NewFeedback(CreateView):
+    model = MessFeedback
+    fields = ['hostelName','username','cleanliness','qual_b','qual_l', 'qual_d','catering','filled','month','year']
+
+class UpdateFeedback(UpdateView):
+    model = MessFeedback
+    fields = ['hostelName','username','cleanliness','qual_b','qual_l', 'qual_d','catering','filled','month','year']
+
+def check_filled(request):
+    curr_month = datetime.now().month
+    curr_year = datetime.now().year
+    uname = request.user.username
+    # request.POST['user']
+    # fbform = MessFeedback.objects.get(username=uname) #,month=curr_month,year=curr_year
+    if MessFeedback.objects.filter(username=uname).count() == 0:
+        # how to pass parameters...
+        return redirect('new_feedback')
+    if MessFeedback.objects.filter(username=uname).count() == 1:
+        # how to pass parameters...
+        return redirect('update_feedback')
+
+    #ideally this should not happen
+    return redirect('home')

@@ -46,7 +46,6 @@
 </head>
 <body class="hold-transition skin-black sidebar-mini">
   {# <div id="main_header"><img class="margin" src='images/mainLogo.png'><h1>Indian Institute of Technology Guwahati</h1></div>#}
-<div class="wrapper">
 
   <header class="main-header">
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -82,6 +81,7 @@
   </header>
   <!-- Left side column. contains the logo and sidebar -->
 
+  <div class="wrapper">
 
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
@@ -117,7 +117,7 @@
             </span>
           </a>
         <ul class="treeview-menu">
-          <li><a href="{% url 'home' %}">Mess Feedback</a></li>
+          <li><a href="{% url 'feedback' %}">Mess Feedback</a></li>
           <li><a href="{% url 'home' %}">Mess Preference</a></li>
           <li><a href="{% url 'home' %}">Mess Leave</a></li>
         </ul>

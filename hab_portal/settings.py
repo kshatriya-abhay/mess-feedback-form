@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'iitgauth',
     'import_export',
     'bootstrap3',
+    'student_portal',
 ]
 
 MIDDLEWARE = [

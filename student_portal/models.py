@@ -1,5 +1,7 @@
 from django.db import models
-
+from datetime import datetime
+curr_month = datetime.now().month
+curr_year = datetime.now().year
 # Create your models here.
 
 HOSTEL_CHOICES = (
@@ -39,9 +41,10 @@ class MessFeedback(models.Model):
     qual_d = models.IntegerField(choices = FEEDBACK_CHOICES,null=True)
     catering = models.IntegerField(choices = FEEDBACK_CHOICES,null=True)
     filled = models.BooleanField(default=False)
-    month = models.CharField(max_length=255)
-    year = models.CharField(max_length=255)
+    month = models.IntegerField(default=curr_month)
+    year = models.IntegerField(default=curr_year)
 #add month, year (as pk along with username)
+#add further comments field
     def __str__(self):
         return '%s_%s_%s' % (self.hostelName, self.month, self.year)
 
@@ -61,5 +64,5 @@ class Opi_calculated(models.Model):
     year = models.CharField(max_length=255)
     opi_value = models.IntegerField()
     numberOfSubscriptions = models.IntegerField()
-        def __str__(self):
-            return '%s_%s_%s' % (self.hostelName, self.month, self.year)
+    def __str__(self):
+        return '%s_%s_%s' % (self.hostelName, self.month, self.year)

@@ -1,14 +1,5 @@
 import os
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'hab_portal',
-        'USER': 'hab_portal_user',
-        'PASSWORD': 'SWC@giit',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
+
 DEBUG = True
 
 ALLOWED_HOSTS = ['*',]
