@@ -9,4 +9,6 @@ urlpatterns = [
     url(r'messfeedback/$', views.check_filled, name='feedback'),
     url(r'messfeedback/new$', views.NewFeedback.as_view(), name='new_feedback'),
     url(r'messfeedback/update$', views.UpdateFeedback.as_view(), name='update_feedback'),
+    url(r'preference/new$', views.NewPreference.as_view(), name='new_preference'),
+
 ]

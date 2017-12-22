@@ -66,3 +66,15 @@ class Opi_calculated(models.Model):
     numberOfSubscriptions = models.IntegerField()
     def __str__(self):
         return '%s_%s_%s' % (self.hostelName, self.month, self.year)
+
+class Preference(models.Model):
+    class Meta:
+        verbose_name = "Preferences"
+        verbose_name_plural = "Preferences"
+    hostelName = models.CharField(max_length=255,choices = HOSTEL_CHOICES)
+    username = models.CharField(max_length=255,primary_key=True)
+    month = models.IntegerField(default=curr_month)
+    year = models.IntegerField(default=curr_year)
+    h1 = models.CharField(max_length=255,choices = HOSTEL_CHOICES, blank=True)
+    h2 = models.CharField(max_length=255,choices = HOSTEL_CHOICES, blank=True)
+    h3 = models.CharField(max_length=255,choices = HOSTEL_CHOICES, blank=True)

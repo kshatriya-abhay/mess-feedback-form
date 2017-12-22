@@ -65,3 +65,7 @@ def check_filled(request):
 
     #ideally this should not happen
     return redirect('home')
+
+class NewPreference(CreateView):
+    model = Preference
+    fields = ['hostelName', 'username', 'month', 'h1', 'h2', 'h3']
