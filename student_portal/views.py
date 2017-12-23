@@ -44,15 +44,22 @@ class LogoutView(LoginRequiredMixin, View):
 
 class NewFeedback(CreateView):
     model = MessFeedback
-    fields = ['hostelName','username','cleanliness','qual_b','qual_l', 'qual_d','catering','filled','month','year']
+    fields = ['hostelName','username','cleanliness','qual_b','qual_l', 'qual_d','catering']
+    success_url = reverse_lazy('home')
+    # def get(self, request):
+    #     tags=['Hostel','User','Cleanliness and Hygiene','Breakfast','Lunch','Dinner','Catering']
+    #     tag_count=0
+    #
+    #     for field in :
+    #         field.label_tag = tags[tag_count]
+    #         tag_count = tag_count+1;
 
 class UpdateFeedback(UpdateView):
     model = MessFeedback
-    fields = ['hostelName','username','cleanliness','qual_b','qual_l', 'qual_d','catering','filled','month','year']
+    fields = ['hostelName','username','cleanliness','qual_b','qual_l', 'qual_d','catering']
 
-def check_filled(request):
-    curr_month = datetime.now().month
-    curr_year = datetime.now().year
+def check_filled_feedback(request):
+    # use m1, y1, uname to check distinct
     uname = request.user.username
     # request.POST['user']
     # fbform = MessFeedback.objects.get(username=uname) #,month=curr_month,year=curr_year
@@ -61,11 +68,28 @@ def check_filled(request):
         return redirect('new_feedback')
     if MessFeedback.objects.filter(username=uname).count() == 1:
         # how to pass parameters...
-        return redirect('update_feedback')
+        if MessFeedback.objects.filter(username=uname,month=m1,year=y1).count() == 1:
+            return redirect('update_feedback')
+        else:
+            return redirect('new_feedback')
 
     #ideally this should not happen
     return redirect('home')
 
 class NewPreference(CreateView):
     model = Preference
-    fields = ['hostelName', 'username', 'month', 'h1', 'h2', 'h3']
+    fields = ['hostelName','username','h1','h2','h3']
+    success_url = reverse_lazy('home')
+    # def post(self, request, *args, **kwargs):
+    #     form = self.get_form()
+    #     if form.is_valid():
+    #         return self.form_valid(form)
+    #     else:
+    #         return self.form_invalid(form)
+    # Find out which variable would be storing the fields value
+# See once line no.826 in django/forms/fields.py
+
+def check_filled_preference(request):
+    # use m2, y2, uname to check distinct
+    # Extract current mess subscription from HAB database
+    return redirect('new_preference')

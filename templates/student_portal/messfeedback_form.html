@@ -2,12 +2,28 @@
 
 {% load static %}
 {%block body_block%}
-<br><br>
+<br>
+<h2>
+<script>
+  n =  new Date();
+  y = n.getFullYear();
+  m = n.getMonth();
+  m = m-1;
+  if (m<0){
+    m=11;
+    y=y-1;
+  }
+  var monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  document.write("Mess Feedback Form for " + monthNames[m] + " " + y);
+</script>
+</h2>
 <div class="panel panel-default">
   <div class="panel-body">
     <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
       {% csrf_token %}
-      {% include 'student_portal/form-template.html' %}
+      {% include 'student_portal/messfeedback_fields.html' %}
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
           <button type="submit" class="btn btn-success"> Submit </button>
