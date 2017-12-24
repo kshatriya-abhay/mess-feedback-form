@@ -8,6 +8,7 @@
   n =  new Date();
   y = n.getFullYear();
   m = n.getMonth();
+  
   var monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
@@ -18,7 +19,7 @@
   <div class="panel-body">
     <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
       {% csrf_token %}
-      {% include 'student_portal/form-template.html' %}
+      {% include 'student_portal/preference_fields.html' %}
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
           <button type="submit" class="btn btn-success"> Submit </button>
