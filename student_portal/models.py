@@ -8,6 +8,7 @@ m1 = m1 - 1
 if m1 < 1:
     m1 = 12
     y1 = y1 - 1
+
 m2 = curr_month
 y2 = curr_year
 m2 = m2 + 1
