@@ -7,6 +7,7 @@ from hab_app.models import *
 from datetime import *
 from django.apps import apps
 from hab_app.forms import *
+from student_portal.models import *
 
 # Create your views here
 
@@ -424,3 +425,30 @@ def chrHostelSummary(request):
         hostelSummary.append(curr_hostel)
         zipped_summary = zip(hostelSummary,hostels)
     return render(request,'hab_app/chrHostelSummary.html',{'zipped_summary':zipped_summary,'hostels':hostels})
+
+def mess_opi(request):
+    feedbacks = MessFeedback.objects.all()
+    hostelss = []
+    for fb in feedbacks:
+        if fb.hostelName not in hostelss:
+            hostelss.append(fb.hostelName)
+
+def opi_calculate(request):
+    feedbacks = MessFeedback.objects.all()
+    hostelss = []
+    noh = 0
+    for fb in feedbacks:
+        if fb.hostelName not in hostelss:
+            hostelss.append(fb.hostelName)
+            noh = noh + 1
+    #list me list append
+    count = 0
+    for fb in feedbacks:
+        sums[0] = sums[0] + fb.cleanliness
+        sums[1] = sums[1] + fb.qual_b
+        sums[2] = sums[2] + fb.qual_l
+        sums[3] = sums[3] + fb.qual_d
+        sums[4] = sums[4] + fb.catering
+        count = count+1
+    for s in sums:
+        s = s/count
