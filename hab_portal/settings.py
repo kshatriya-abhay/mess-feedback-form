@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'import_export',
     'bootstrap3',
     'student_portal',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -150,3 +151,12 @@ try:
     from local_settings import *
 except ImportError:
     pass
+
+
+# CELERY STUFF
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Africa/Nairobi'

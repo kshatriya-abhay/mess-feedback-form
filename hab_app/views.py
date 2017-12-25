@@ -427,28 +427,37 @@ def chrHostelSummary(request):
     return render(request,'hab_app/chrHostelSummary.html',{'zipped_summary':zipped_summary,'hostels':hostels})
 
 def mess_opi(request):
-    feedbacks = MessFeedback.objects.all()
-    hostelss = []
-    for fb in feedbacks:
-        if fb.hostelName not in hostelss:
-            hostelss.append(fb.hostelName)
+    opi_calculated_list = Opi_calculated.objects.all()
+    print(
+    )
+    return render(request,'hab_app/opi_student_portal.html', {'opi_calculated_list': opi_calculated_list})
 
 def opi_calculate(request):
     feedbacks = MessFeedback.objects.all()
+    print(feedbacks)
     hostelss = []
-    noh = 0
+    noh = 0         # number of hostels
+    freq_hostelss = []  #hostel wise freq of the feedback
     for fb in feedbacks:
+        #   count No. of feedbacks hostelwise
         if fb.hostelName not in hostelss:
             hostelss.append(fb.hostelName)
             noh = noh + 1
-    #list me list append
-    count = 0
+            freq_hostelss.append(1)
+        else:
+            freq_hostelss[hostelss.index(fb.hostelName)] += 1
+
+#   one loop to calculate sum of 5 fields hostelwise and then take their average
+    opis = [0] * len(hostelss)
     for fb in feedbacks:
-        sums[0] = sums[0] + fb.cleanliness
-        sums[1] = sums[1] + fb.qual_b
-        sums[2] = sums[2] + fb.qual_l
-        sums[3] = sums[3] + fb.qual_d
-        sums[4] = sums[4] + fb.catering
-        count = count+1
-    for s in sums:
-        s = s/count
+        opis[hostelss.index(fb.hostelName)] = (fb.cleanliness + fb.qual_b + fb.qual_l + fb.qual_d + fb.catering)/5
+    print(opis)
+    for fb in feedbacks:
+        opis[hostelss.index(fb.hostelName)] = opis[hostelss.index(fb.hostelName)] / freq_hostelss[hostelss.index(fb.hostelName)]
+    Opi_calculated.objects.all().delete()
+    for i in range(len(opis)):
+        opi_object = Opi_calculated(hostelName=hostelss[i])
+        opi_object.opi_value = opis[i]
+        opi_object.numberOfSubscriptions = freq_hostelss[i]
+        opi_object.save()
+    return redirect('hab_app:mess_opi')

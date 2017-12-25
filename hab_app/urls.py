@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^roomDetails/$', views.roomDetails,name='roomDetails'),
     url(r'^chrViewRoom/$', views.chrViewRoom,name='chrViewRoom'),
     url(r'^chrHostelSummary/$', views.chrHostelSummary,name='chrHostelSummary'),
-    url(r'^mess_opi/', views.mess_opi,name='mess_opi'),
+    
+    url(r'^mess_opi/$', views.mess_opi,name='mess_opi'),
     url(r'^mess_opi/calculate$', views.opi_calculate,name='opi_calculate'),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_DIR)

@@ -7,3 +7,4 @@ app = apps.get_app_config('student_portal')
 # Register your models here.
 admin.site.register(MessFeedback)
 admin.site.register(Preference)
+admin.site.register(Opi_calculated)

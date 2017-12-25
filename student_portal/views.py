@@ -9,6 +9,10 @@ from django.views.generic.edit import CreateView, UpdateView
 from iitgauth.views import WebmailLoginView
 from .models import *
 from datetime import datetime
+
+from celery.task.schedules import crontab
+from celery.decorators import periodic_task
+
 # Create your views here.
 
     # Views for Webmail Login
@@ -28,6 +32,8 @@ class HomeView(TemplateView):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['user'] = self.request.user
         return context
+
+
 
 class LogoutView(LoginRequiredMixin, View):
 
@@ -58,6 +64,11 @@ class UpdateFeedback(UpdateView):
     model = MessFeedback
     fields = ['hostelName','username','cleanliness','qual_b','qual_l', 'qual_d','catering']
 
+# @periodic_task(
+#     run_every=(crontab(minute='*/1')),
+#     name="check_filled_feedback",
+#     ignore_result=True
+# )
 def check_filled_feedback(request):
     # use m1, y1, uname to check distinct
     uname = request.user.username
